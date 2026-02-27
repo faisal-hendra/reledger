@@ -3,6 +3,7 @@ import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import AppDatabase from '../db/database'
+import setUpHandlers from 'src/db/ipcHandlers'
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 let db: AppDatabase
@@ -56,6 +57,7 @@ app.whenReady().then(() => {
   })
 
   db = new AppDatabase()
+  setUpHandlers(db)
   createWindow()
 
   app.on('activate', function () {

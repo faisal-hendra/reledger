@@ -2,7 +2,7 @@ import { app } from 'electron'
 import path from 'node:path'
 import Database from 'better-sqlite3'
 
-interface Transaction {
+export interface Transaction {
   transaction_type: 'expense' | 'income'
   name: string
   amount: number
@@ -11,7 +11,7 @@ interface Transaction {
   date: string
 }
 
-interface TransactionUpdate {
+export interface TransactionUpdate {
   transaction_type: 'expense' | 'income'
   name: string
   amount: number
@@ -21,11 +21,11 @@ interface TransactionUpdate {
   id: number
 }
 
-interface TransactionID {
+export interface TransactionID {
   id: number
 }
 
-interface TransactionFilters {
+export interface TransactionFilters {
   month: string | null
   year: string | null
   keyword: string | null
@@ -149,6 +149,14 @@ class AppDatabase {
     } catch (error) {
       console.error('Failed to get transaction by id:', error)
       throw error
+    }
+  }
+
+  close(): void {
+    try {
+      this.db.close()
+    } catch (error) {
+      console.log('Failed to close the database: ', error)
     }
   }
 }

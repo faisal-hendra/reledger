@@ -1,8 +1,16 @@
-import { contextBridge } from 'electron'
+import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { Transaction, TransactionUpdate, TransactionFilters } from '../db/database'
 
 // Custom APIs for renderer
-const api = {}
+const api = {
+  getTransactions: (filters: TransactionFilters) => ipcRenderer.invoke('get-transactions', filters),
+  addTransaction: (transaction: Transaction) => ipcRenderer.invoke('add-transaction', transaction),
+  deleteTransaction: (transactionId: string) =>
+    ipcRenderer.invoke('delete-transaction', transactionId),
+  updateTransaction: (transaction: TransactionUpdate) =>
+    ipcRenderer.invoke('update-transaction', transaction)
+}
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -20,3 +28,7 @@ if (process.contextIsolated) {
   // @ts-ignore (define in dts)
   window.api = api
 }
+
+contextBridge.exposeInMainWorld('api', {
+  api
+})
