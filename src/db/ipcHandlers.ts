@@ -1,9 +1,6 @@
 import { ipcMain } from 'electron'
 import AppDatabase from './database'
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const db = new AppDatabase()
-
 export default function setUpHandlers(db: AppDatabase): void {
   ipcMain.handle('get-transactions', (_, filters) => {
     return db.getAllTransactions(filters)
