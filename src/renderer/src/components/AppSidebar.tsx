@@ -38,7 +38,7 @@ export default function AppSidebar({ children }: SidebarProps): React.JSX.Elemen
           </Button>
         </div>
 
-        <nav className="flex flex-col gap-1 px-2">
+        <nav className="flex flex-col gap-1 py-0.5 px-2">
           {navItems.map((item) => {
             const isActive = location.pathname === item.path
             const Icon = item.icon
@@ -50,7 +50,7 @@ export default function AppSidebar({ children }: SidebarProps): React.JSX.Elemen
                   <Link
                     key={item.path}
                     to={item.path}
-                    className={`flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-150 ${
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-sm transition-all duration-150 ${
                       isActive
                         ? 'bg-[#414141] text-white'
                         : 'text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
