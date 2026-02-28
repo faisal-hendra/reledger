@@ -3,18 +3,18 @@ import { navItems } from '@/pages/_pages'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface SidebarProps {
-  os: string
+  platform: string
   children: React.ReactNode
 }
 
-export default function AppSidebar({ os, children }: SidebarProps): React.JSX.Element {
+export default function AppSidebar({ platform, children }: SidebarProps): React.JSX.Element {
   const location = useLocation()
   const hideSidebar = true
 
   return (
     <div className="flex flex-1 overflow-hidden">
       <aside
-        className={`font-montserrat bg-transparent text-gray-300 text-sm flex flex-col shrink-0 ${os === 'Windows' ? 'pt-2' : 'pt-3'} transition-all duration-200 ${
+        className={`font-montserrat bg-transparent text-gray-300 text-sm flex flex-col shrink-0 ${platform === 'win32' ? 'pt-2' : 'pt-3'} transition-all duration-200 ${
           hideSidebar ? 'w-15' : 'w-56'
         }`}
       >
@@ -69,7 +69,7 @@ export default function AppSidebar({ os, children }: SidebarProps): React.JSX.El
           </h2>
         </header>
         <div
-          className={`flex-1 overflow-auto p-6 ${os === 'Windows' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
+          className={`flex-1 overflow-auto p-6 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
         >
           {children}
         </div>
