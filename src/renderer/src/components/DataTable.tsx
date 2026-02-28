@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 
-import { Button } from '@/components/ui/button'
+import { Button } from '@renderer/components/ui/button'
 
 import {
   ColumnDef,
@@ -21,7 +21,7 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from '@/components/ui/table'
+} from '@renderer/components/ui/table'
 
 import {
   Select,
@@ -30,9 +30,9 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue
-} from '@/components/ui/select'
+} from '@renderer/components/ui/select'
 
-import { Label } from '@/components/ui/label'
+import { Label } from '@renderer/components/ui/label'
 
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 

@@ -1,5 +1,5 @@
-import { columns } from '@renderer/components/Columns'
-import { DataTable } from '@renderer/components/DataTable'
+import { columns } from '@/components/Columns'
+import { DataTable } from '@/components/DataTable'
 import { useState, useEffect } from 'react'
 
 type Transaction = {
@@ -14,15 +14,13 @@ type Transaction = {
 
 function Transctions(): React.JSX.Element {
   const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [year, setYear] = useState(new Date().getFullYear())
-  const [month, setMonth] = useState(new Date().getMonth() + 1)
 
   useEffect(() => {
     const loadTransactions = async (): Promise<void> => {
       try {
         const filters = {
-          month: month,
-          year: year,
+          month: null,
+          year: null,
           keyword: null
         }
         const data = await window.api.getTransactions(filters)

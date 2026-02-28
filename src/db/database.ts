@@ -2,36 +2,6 @@ import { app } from 'electron'
 import path from 'node:path'
 import Database from 'better-sqlite3'
 
-export interface Transaction {
-  id: number
-  transaction_type: 'expense' | 'income'
-  name: string
-  amount: number
-  category: string
-  description?: string
-  date: string
-}
-
-export interface TransactionUpdate {
-  transaction_type: 'expense' | 'income'
-  name: string
-  amount: number
-  category: string
-  description?: string
-  date: string
-  id: number
-}
-
-export interface TransactionID {
-  id: number
-}
-
-export interface TransactionFilters {
-  month: number | null
-  year: number | null
-  keyword: string | null
-}
-
 class AppDatabase {
   db: Database.Database
 
@@ -131,6 +101,8 @@ class AppDatabase {
       if (filters.keyword) {
         query += ' AND name LIKE ?'
         params.push(`%${filters.keyword}%`)
+      } else {
+        query += ' ORDER BY date(date) DESC'
       }
 
       const stmt = this.db.prepare(query)
@@ -153,6 +125,17 @@ class AppDatabase {
       return stmt.get(TransactionID.id) as Transaction | null
     } catch (error) {
       console.error('Failed to get transaction by id:', error)
+      throw error
+    }
+  }
+
+  getRecentTransactions(limit: number): Transaction[] | null {
+    try {
+      const query = `SELECT * FROM transactions ORDER BY date(date) DESC LIMIT ?`
+      const stmt = this.db.prepare(query)
+      return stmt.all(limit) as Transaction[]
+    } catch (error) {
+      console.log('Failed to get recent transaction: ', error)
       throw error
     }
   }

@@ -1,4 +1,3 @@
-import React from 'react'
 import { TrendingUp, Wallet, CreditCard, ArrowUpRight, ArrowDownLeft } from 'lucide-react'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 

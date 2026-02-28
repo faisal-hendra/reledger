@@ -17,4 +17,7 @@ export default function setUpHandlers(db: AppDatabase): void {
   ipcMain.handle('updateTransaction', (_, transaction) => {
     return db.updateTransaction(transaction)
   })
+  ipcMain.handle('getRecentTransactions', (_, limit) => {
+    return db.getRecentTransactions(limit)
+  })
 }

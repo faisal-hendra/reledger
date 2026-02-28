@@ -1,6 +1,5 @@
 import { contextBridge, ipcRenderer } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { Transaction, TransactionUpdate, TransactionFilters } from '../db/database'
 
 // Custom APIs for renderer
 const api = {
@@ -9,7 +8,8 @@ const api = {
   deleteTransaction: (transactionId: string) =>
     ipcRenderer.invoke('deleteTransaction', transactionId),
   updateTransaction: (transaction: TransactionUpdate) =>
-    ipcRenderer.invoke('updateTransaction', transaction)
+    ipcRenderer.invoke('updateTransaction', transaction),
+  getRecentTransaction: (limit: number) => ipcRenderer.invoke('getRecentTransaction', limit)
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

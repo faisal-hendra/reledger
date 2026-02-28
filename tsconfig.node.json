@@ -7,8 +7,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/renderer/src/*"],
-      "@": ["./src/renderer/src/*"]
+      "@": ["./src/renderer/src/*"],
+      "@renderer": ["./src/renderer/src/*"]
     },
-    "moduleResolution": "bundler"
-  }
+    "moduleResolution": "bundler",
+    "lib": [
+      "es5", "es6", "dom", "dom.iterable"
+    ]
+  },
+    "include": ["src/**/*", "src/types/global.d.ts"]
 }
