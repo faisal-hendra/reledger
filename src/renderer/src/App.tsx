@@ -2,7 +2,7 @@ import { Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@/components/ui/theme-provider'
 import AppSidebar from './components/AppSidebar'
 import Dashboard from './pages/Dashboard'
-import Transctions from './pages/Transctions'
+import Transactions from './pages/Transactions'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import detectOS from './modules/detect-os'
 
@@ -11,7 +11,8 @@ const os = detectOS()
 function App(): React.JSX.Element {
   return (
     <>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      {/* For development only dark mode will be used, theme switch will be added later */}
+      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
         <TooltipProvider>
           <div className="flex flex-col h-screen overflow-hidden">
             <div
@@ -22,7 +23,7 @@ function App(): React.JSX.Element {
             <AppSidebar os={os}>
               <Routes>
                 <Route path="/" element={<Dashboard />} />
-                <Route path="/transactions" element={<Transctions />} />
+                <Route path="/transactions" element={<Transactions />} />
               </Routes>
             </AppSidebar>
           </div>

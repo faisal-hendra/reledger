@@ -3,6 +3,7 @@ import path from 'node:path'
 import Database from 'better-sqlite3'
 
 export interface Transaction {
+  id: number
   transaction_type: 'expense' | 'income'
   name: string
   amount: number
@@ -26,8 +27,8 @@ export interface TransactionID {
 }
 
 export interface TransactionFilters {
-  month: string | null
-  year: string | null
+  month: number | null
+  year: number | null
   keyword: string | null
 }
 
@@ -120,12 +121,12 @@ class AppDatabase {
       const params: (string | number)[] = []
 
       if (filters.month) {
-        query += ' AND strftime("%m", date) = ?'
-        params.push(filters.month)
+        query += " AND strftime('%m', date) = ?"
+        params.push(filters.month.toString().padStart(2, '0'))
       }
       if (filters.year) {
-        query += ' AND strftime("%Y", date) = ?'
-        params.push(filters.year)
+        query += " AND strftime('%Y', date) = ?"
+        params.push(filters.year.toString())
       }
       if (filters.keyword) {
         query += ' AND name LIKE ?'
@@ -133,9 +134,13 @@ class AppDatabase {
       }
 
       const stmt = this.db.prepare(query)
+      console.log('Transactions From db: ', stmt.all(...params))
+      console.log('Query: ', query)
+      console.log('Parameters: ', params)
       return stmt.all(...params) as Transaction[]
     } catch (error) {
       console.error('Failed to get all transactions:', error)
+
       throw error
     }
   }
