@@ -1,15 +1,30 @@
 import React from 'react'
 import { ArrowUpRight, ArrowDownLeft } from 'lucide-react'
+import dayjs from 'dayjs'
 
 interface Props {
   recentTransactions: Transaction[]
 }
 
 function RecentTransactions({ recentTransactions }: Props): React.JSX.Element {
+  // Display transaction date whether if it's Today, Yesterday, or other date
+  const displayTransactionDate = (trDate): string => {
+    const todayDate = dayjs().format('YYYY-MM-DD')
+    const yesterdayDate = dayjs().subtract(1, 'day').format('YYYY-MM-DD')
+    if (trDate === todayDate) {
+      return 'Today'
+    } else if (trDate === yesterdayDate) {
+      return 'Yesterday'
+    } else {
+      return dayjs(trDate).format('dddd, D MMM YYYY')
+    }
+  }
+
   return (
     <div className="rounded-xl border border-[#303030] overflow-hidden">
-      <div className="px-5 py-4 border-b border-[#303030]">
+      <div className="flex px-5 py-4 border-b border-[#303030] justify-between">
         <h3 className="font-semibold text-white">Recent Transactions</h3>
+        <h4>{`${dayjs().format('dddd, D MMM YYYY')}`}</h4>
       </div>
       <div className="divide-y divide-[#303030]">
         {recentTransactions.map((tx) => (
@@ -33,7 +48,7 @@ function RecentTransactions({ recentTransactions }: Props): React.JSX.Element {
               </div>
               <div>
                 <div className="text-sm font-medium text-white">{tx.name}</div>
-                <div className="text-xs text-gray-500">{tx.date}</div>
+                <div className="text-xs text-gray-500">{`${displayTransactionDate(tx.date)}`}</div>
               </div>
             </div>
             <div
