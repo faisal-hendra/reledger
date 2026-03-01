@@ -2,23 +2,13 @@ export {}
 
 declare global {
   interface Transaction {
-    id: number
+    id?: number
     transaction_type: 'expense' | 'income'
     name: string
     amount: number
     category: string
     description?: string
     date: string
-  }
-
-  interface TransactionUpdate {
-    transaction_type: 'expense' | 'income'
-    name: string
-    amount: number
-    category: string
-    description?: string
-    date: string
-    id: number
   }
 
   interface TransactionFilters {

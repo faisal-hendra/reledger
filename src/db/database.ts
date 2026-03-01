@@ -53,7 +53,7 @@ class AppDatabase {
     }
   }
 
-  updateTransaction(transaction: TransactionUpdate): void {
+  updateTransaction(transaction: Transaction): void {
     try {
       const stmt = this.db.prepare(`
         UPDATE transactions SET transaction_type = ?, name = ?, amount = ?, category = ?, description = ?, date = ? WHERE id = ?

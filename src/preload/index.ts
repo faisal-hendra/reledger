@@ -8,7 +8,7 @@ const api = {
   addTransaction: (transaction: Transaction) => ipcRenderer.invoke('addTransaction', transaction),
   deleteTransaction: (transactionId: string) =>
     ipcRenderer.invoke('deleteTransaction', transactionId),
-  updateTransaction: (transaction: TransactionUpdate) =>
+  updateTransaction: (transaction: Transaction) =>
     ipcRenderer.invoke('updateTransaction', transaction),
   getRecentTransactions: (limit: number) => ipcRenderer.invoke('getRecentTransactions', limit),
   getMonthlyTotal: (filters: MonthlyTotalFilters) => ipcRenderer.invoke('getMonthlyTotal', filters)
