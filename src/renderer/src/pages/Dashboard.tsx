@@ -2,6 +2,7 @@ import { TrendingUp, Wallet, CreditCard } from 'lucide-react'
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import RecentTransactions from '@/components/RecentTransactions'
 import { useEffect, useState } from 'react'
+import dayjs from 'dayjs'
 
 function Dashboard(): React.JSX.Element {
   // Mock data, replace these with the real ones when the db is ready
@@ -12,6 +13,27 @@ function Dashboard(): React.JSX.Element {
   ]
 
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([])
+  const [monthlyTotal, setMonthlyTotal] = useState<MonthlyTotal>({
+    income: 0,
+    expense: 0
+  })
+  const [balance, setBalance] = useState<number>(0)
+
+  useEffect(() => {
+    const loadMonthlyTotal = async (): Promise<void> => {
+      try {
+        const filters = {
+          month: dayjs().month(),
+          year: dayjs().year()
+        }
+        const data = await window.api.getMonthlyTotal(filters)
+        setMonthlyTotal(data)
+      } catch (error) {
+        console.log('Failed to fetch monthly total', error)
+      }
+    }
+    loadMonthlyTotal()
+  }, [])
 
   useEffect(() => {
     const loadRecentTransactions = async (): Promise<void> => {
@@ -27,8 +49,8 @@ function Dashboard(): React.JSX.Element {
   }, [])
 
   useEffect(() => {
-    console.log('Recent transactions: ', recentTransactions)
-  }, [recentTransactions])
+    setBalance(monthlyTotal.income - monthlyTotal.expense)
+  }, [monthlyTotal])
 
   return (
     <div className="space-y-6">

@@ -142,6 +142,38 @@ class AppDatabase {
     }
   }
 
+  getMonthlyTotal(filters: MonthlyTotalFilters): MonthlyTotal | null {
+    try {
+      let query = `
+      SELECT 
+        SUM(CASE WHEN transaction_type = 'income' THEN amount ELSE 0 END) as income,
+        SUM(CASE WHEN transaction_type = 'expense' THEN amount ELSE 0 END) as expense
+      FROM transactions
+    `
+      const params: (string | number)[] = []
+      const conditions: string[] = []
+
+      if (filters.month) {
+        conditions.push("strftime('%m', date) = ?")
+        params.push(filters.month.toString().padStart(2, '0'))
+      }
+      if (filters.year) {
+        conditions.push("strftime('%Y', date) = ?")
+        params.push(filters.year.toString())
+      }
+
+      if (conditions.length > 0) {
+        query += ' WHERE ' + conditions.join(' AND ')
+      }
+
+      const stmt = this.db.prepare(query)
+      return stmt.get(...params) as MonthlyTotal
+    } catch (error) {
+      console.log('Failed to fetch monthly total', error)
+      throw error
+    }
+  }
+
   close(): void {
     try {
       this.db.close()

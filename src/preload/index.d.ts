@@ -10,6 +10,7 @@ declare global {
       deleteTransaction: (transactionId: string) => Promise<void>
       updateTransaction: (transaction: TransactionUpdate) => Promise<void>
       getRecentTransactions: (limit: number) => Promise<void>
+      getMonthlyTotal: (filters: MonthlyTotalFilters) => Promise<void>
     }
   }
 }

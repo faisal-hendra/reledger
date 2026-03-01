@@ -10,7 +10,8 @@ const api = {
     ipcRenderer.invoke('deleteTransaction', transactionId),
   updateTransaction: (transaction: TransactionUpdate) =>
     ipcRenderer.invoke('updateTransaction', transaction),
-  getRecentTransactions: (limit: number) => ipcRenderer.invoke('getRecentTransactions', limit)
+  getRecentTransactions: (limit: number) => ipcRenderer.invoke('getRecentTransactions', limit),
+  getMonthlyTotal: (filters: MonthlyTotalFilters) => ipcRenderer.invoke('getMonthlyTotal', filters)
 }
 
 // Get oprating system name

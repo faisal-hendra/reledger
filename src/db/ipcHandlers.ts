@@ -20,4 +20,7 @@ export default function setUpHandlers(db: AppDatabase): void {
   ipcMain.handle('getRecentTransactions', (_, limit) => {
     return db.getRecentTransactions(limit)
   })
+  ipcMain.handle('getMonthlyTotal', (_, filters) => {
+    return db.getMonthlyTotal(filters)
+  })
 }

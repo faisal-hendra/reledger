@@ -35,4 +35,14 @@ declare global {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     api: any
   }
+
+  interface MonthlyTotal {
+    income: number
+    expense: number
+  }
+
+  interface MonthlyTotalFilters {
+    month: number
+    year: number
+  }
 }
