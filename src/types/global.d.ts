@@ -27,8 +27,17 @@ declare global {
     year: number
   }
 
+  interface WindowAPI {
+    platform: NodeJS.Platform
+    getTransactions: (filters: TransactionFilters) => Promise<Transaction[]>
+    addTransaction: (transaction: Transaction) => Promise<void>
+    deleteTransaction: (transactionId: string) => Promise<void>
+    updateTransaction: (transaction: Transaction) => Promise<void>
+    getRecentTransactions: (limit: number) => Promise<Transaction[]>
+    getMonthlyTotal: (filters: MonthlyTotalFilters) => Promise<MonthlyTotal>
+  }
+
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    api: any
+    api: WindowAPI
   }
 }
