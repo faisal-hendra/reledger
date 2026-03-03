@@ -5,6 +5,7 @@ import { ArrowUpDown } from 'lucide-react'
 import { Button } from './ui/button'
 import { Badge } from '@/components/ui/badge'
 import { MoreHorizontal, CopyIcon, PenIcon, TrashIcon } from 'lucide-react'
+import DeleteTransaction from './DeleteTransaction'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,7 +14,7 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
-export const columns: ColumnDef<Transaction, unknown>[] = [
+export const createColumns = (onRefresh?: () => void): ColumnDef<Transaction, unknown>[] => [
   {
     accessorKey: 'transaction_type',
     header: 'Type',
@@ -129,10 +130,12 @@ export const columns: ColumnDef<Transaction, unknown>[] = [
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">
-              <TrashIcon />
-              Delete
-            </DropdownMenuItem>
+            <DeleteTransaction id={transaction.id?.toString() || ''} onRefresh={onRefresh}>
+              <DropdownMenuItem variant="destructive" onSelect={(e) => e.preventDefault()}>
+                <TrashIcon />
+                Delete
+              </DropdownMenuItem>
+            </DeleteTransaction>
           </DropdownMenuContent>
         </DropdownMenu>
       )
