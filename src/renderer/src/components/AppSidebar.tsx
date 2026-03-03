@@ -3,11 +3,10 @@ import { navItems } from '@/pages/_pages'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 
 interface SidebarProps {
-  platform: string
   children: React.ReactNode
 }
 
-export default function AppSidebar({ platform, children }: SidebarProps): React.JSX.Element {
+export default function AppSidebar({ children }: SidebarProps): React.JSX.Element {
   const location = useLocation()
   const hideSidebar = true
 
@@ -60,19 +59,11 @@ export default function AppSidebar({ platform, children }: SidebarProps): React.
       </aside>
 
       <main className="flex-1 bg-[#191919] border-l border-[#303030] overflow-hidden flex flex-col">
-        <header className="h-14 flex items-center px-6 border-b border-[#303030] shrink-0">
-          <h2 className="text-lg font-medium text-white">
-            {location.pathname === '/'
-              ? 'Dashboard'
-              : location.pathname.replace(/\//, '').charAt(0).toUpperCase() +
-                location.pathname.replace(/\//, '').slice(1)}
-          </h2>
-        </header>
-        <div
+        {/* <div
           className={`flex-1 overflow-auto p-6 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
-        >
-          {children}
-        </div>
+        > */}
+        {children}
+        {/* </div> */}
       </main>
     </div>
   )

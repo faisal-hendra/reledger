@@ -3,6 +3,7 @@ import { Card, CardAction, CardContent, CardHeader, CardTitle } from '@/componen
 import RecentTransactions from '@/components/RecentTransactions'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
+import PageHeader from '@/components/PageHeader'
 
 function Dashboard(): React.JSX.Element {
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([])
@@ -160,31 +161,34 @@ function Dashboard(): React.JSX.Element {
   }
 
   return (
-    <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {stats.map((stat) => (
-          <Card key={stat.label}>
-            <CardHeader>
-              <CardTitle className="text-gray-400">{stat.label}</CardTitle>
-              <CardAction>
-                <div className={`flex items-center justify-center`}>
-                  <stat.icon className="w-4 h-4" />
+    <>
+      <PageHeader />
+      <div className="space-y-6 flex-1 overflow-auto p-6 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {stats.map((stat) => (
+            <Card key={stat.label}>
+              <CardHeader>
+                <CardTitle className="text-gray-400">{stat.label}</CardTitle>
+                <CardAction>
+                  <div className={`flex items-center justify-center`}>
+                    <stat.icon className="w-4 h-4" />
+                  </div>
+                </CardAction>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center justify-between mb-3"></div>
+                <div className="text-2xl font-semibold text-white mb-1">{stat.value}</div>
+                <div className={`text-xs ${determineStatsColor(stat.trend, stat.isExpense)}`}>
+                  {stat.change} from last month
                 </div>
-              </CardAction>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-center justify-between mb-3"></div>
-              <div className="text-2xl font-semibold text-white mb-1">{stat.value}</div>
-              <div className={`text-xs ${determineStatsColor(stat.trend, stat.isExpense)}`}>
-                {stat.change} from last month
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+        <br />
+        <RecentTransactions recentTransactions={recentTransactions} />
       </div>
-      <br />
-      <RecentTransactions recentTransactions={recentTransactions} />
-    </div>
+    </>
   )
 }
 
