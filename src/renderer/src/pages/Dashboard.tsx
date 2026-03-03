@@ -5,7 +5,11 @@ import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import PageHeader from '@/components/PageHeader'
 
-function Dashboard(): React.JSX.Element {
+interface Props {
+  platform: string
+}
+
+function Dashboard({ platform }: Props): React.JSX.Element {
   const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([])
   const [thisMonthTotal, setThisMonthTotal] = useState<MonthlyTotal>({
     income: 0,
@@ -163,7 +167,9 @@ function Dashboard(): React.JSX.Element {
   return (
     <>
       <PageHeader />
-      <div className="space-y-6 flex-1 overflow-auto p-6 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar">
+      <div
+        className={`space-y-6 flex-1 overflow-auto p-6 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
+      >
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {stats.map((stat) => (
             <Card key={stat.label}>

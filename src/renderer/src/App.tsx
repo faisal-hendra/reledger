@@ -20,10 +20,10 @@ function App(): React.JSX.Element {
             >
               <p className="text-xs text-white select-none">Reledger</p>
             </div>
-            <AppSidebar platform={platform}>
+            <AppSidebar>
               <Routes>
-                <Route path="/" element={<Dashboard />} />
-                <Route path="/transactions" element={<Transactions />} />
+                <Route path="/" element={<Dashboard platform={platform} />} />
+                <Route path="/transactions" element={<Transactions platform={platform} />} />
               </Routes>
             </AppSidebar>
           </div>
