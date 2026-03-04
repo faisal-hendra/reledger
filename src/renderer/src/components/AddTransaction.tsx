@@ -21,7 +21,7 @@ import {
 } from '@/components/ui/select'
 import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ChevronDownIcon } from 'lucide-react'
+import { ChevronDownIcon, CalendarIcon } from 'lucide-react'
 import { Badge } from './ui/badge'
 
 import dayjs from 'dayjs'
@@ -29,6 +29,7 @@ import dayjs from 'dayjs'
 interface Props {
   children: React.ReactNode
   onTransactionAdded: () => void
+  alert: () => void
   editMode: boolean
   idToEdit?: number
 }
@@ -51,7 +52,9 @@ export function AddTransaction({
   children,
   onTransactionAdded,
   editMode,
-  idToEdit
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  idToEdit,
+  alert
 }: Props): React.JSX.Element {
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState(INITIAL_FORM)
@@ -76,6 +79,7 @@ export function AddTransaction({
       setFormData(INITIAL_FORM)
       setOpen(false)
       onTransactionAdded?.()
+      alert?.()
     } catch (error) {
       console.error('Failed to add transaction:', error)
     }
@@ -178,12 +182,15 @@ export function AddTransaction({
                       data-empty={!formData.date}
                       className="data-[empty=true]:text-muted-foreground w-[212px] justify-between text-left font-normal"
                     >
-                      {formData.date ? (
-                        dayjs(formData.date).format('YYYY-MM-DD')
-                      ) : (
-                        <span>Pick a date</span>
-                      )}
-                      <ChevronDownIcon className="h-4 w-4" />
+                      <div className="flex gap-2 items-center">
+                        <CalendarIcon className="opacity-30" />
+                        {formData.date ? (
+                          dayjs(formData.date).format('YYYY-MM-DD')
+                        ) : (
+                          <span>Pick a date</span>
+                        )}
+                      </div>
+                      <ChevronDownIcon className="h-4 w-4 opacity-30" />
                     </Button>
                   </PopoverTrigger>
                   <PopoverContent className="w-auto p-0" align="start">

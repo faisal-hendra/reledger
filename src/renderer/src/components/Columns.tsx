@@ -14,7 +14,10 @@ import {
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu'
 
-export const createColumns = (onRefresh?: () => void): ColumnDef<Transaction, unknown>[] => [
+export const createColumns = (
+  onRefresh?: () => void,
+  deleteTransactionToast?: () => void
+): ColumnDef<Transaction, unknown>[] => [
   {
     accessorKey: 'transaction_type',
     header: 'Type',
@@ -130,7 +133,11 @@ export const createColumns = (onRefresh?: () => void): ColumnDef<Transaction, un
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DeleteTransaction id={transaction.id?.toString() || ''} onRefresh={onRefresh}>
+            <DeleteTransaction
+              id={transaction.id?.toString() || ''}
+              onRefresh={onRefresh}
+              alert={deleteTransactionToast}
+            >
               <DropdownMenuItem variant="destructive" onSelect={(e) => e.preventDefault()}>
                 <TrashIcon />
                 Delete

@@ -17,12 +17,14 @@ interface Props {
   children: React.ReactNode
   id: string
   onRefresh?: () => void
+  alert?: () => void
 }
 
-function DeleteTransaction({ children, id, onRefresh }: Props): React.JSX.Element {
+function DeleteTransaction({ children, id, onRefresh, alert }: Props): React.JSX.Element {
   const handleDelete = async (): Promise<void> => {
     await window.api.deleteTransaction(id)
     onRefresh?.()
+    alert?.()
   }
   return (
     <AlertDialog>

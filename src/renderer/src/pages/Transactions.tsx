@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { FunnelIcon, PlusIcon } from 'lucide-react'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { AddTransaction } from '@/components/AddTransaction'
+import { toast } from 'sonner'
 
 interface Props {
   platform: string
@@ -50,6 +51,14 @@ function Transctions({ platform }: Props): React.JSX.Element {
     console.log('Transactions: ', transactions)
   }, [transactions])
 
+  const addTransactionToast = (): void => {
+    toast.success('Transaction has been added')
+  }
+
+  const deleteTransactionToast = (): void => {
+    toast.success('Transaction has been deleted')
+  }
+
   return (
     <>
       <PageHeader>
@@ -58,7 +67,11 @@ function Transctions({ platform }: Props): React.JSX.Element {
             <FunnelIcon />
             Filter
           </Button>
-          <AddTransaction onTransactionAdded={loadTransactions} editMode={false}>
+          <AddTransaction
+            onTransactionAdded={loadTransactions}
+            editMode={false}
+            alert={addTransactionToast}
+          >
             <Button>
               <PlusIcon />
               Add
@@ -70,7 +83,10 @@ function Transctions({ platform }: Props): React.JSX.Element {
         className={`space-y-6 flex-1 overflow-auto p-6 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
       >
         {transactions.length > 0 ? (
-          <DataTable columns={createColumns(loadTransactions)} data={transactions} />
+          <DataTable
+            columns={createColumns(loadTransactions, deleteTransactionToast)}
+            data={transactions}
+          />
         ) : (
           <div className="w-full text-center opacity-70 text-sm">No data to display</div>
         )}

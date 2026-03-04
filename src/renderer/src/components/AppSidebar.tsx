@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import { navItems } from '@/pages/_pages'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
+import { Toaster } from '@/components/ui/sonner'
 
 interface SidebarProps {
   children: React.ReactNode
@@ -62,6 +63,7 @@ export default function AppSidebar({ children }: SidebarProps): React.JSX.Elemen
         {/* <div
           className={`flex-1 overflow-auto p-6 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
         > */}
+        <Toaster />
         {children}
         {/* </div> */}
       </main>

@@ -116,7 +116,13 @@ export function DataTable<TData, TValue>({
           Page {table.getState().pagination.pageIndex + 1} of {table.getPageCount()}
         </Label>
         <div className="flex gap-2">
-          <Select value={rowCountOption} onValueChange={(e) => setRowCountOption(e)}>
+          <Select
+            value={rowCountOption}
+            onValueChange={(e) => {
+              setRowCountOption(e)
+              setPagination({ ...pagination, pageIndex: 0 })
+            }}
+          >
             <SelectTrigger className="w-26" size="sm">
               <SelectValue placeholder="Theme" />
             </SelectTrigger>
