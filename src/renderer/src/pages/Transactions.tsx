@@ -5,6 +5,7 @@ import PageHeader from '@/components/PageHeader'
 import { Button } from '@/components/ui/button'
 import { FunnelIcon, PlusIcon } from 'lucide-react'
 import { ButtonGroup } from '@/components/ui/button-group'
+import { AddTransaction } from '@/components/AddTransaction'
 
 interface Props {
   platform: string
@@ -49,10 +50,6 @@ function Transctions({ platform }: Props): React.JSX.Element {
     console.log('Transactions: ', transactions)
   }, [transactions])
 
-  const buttonTest = (): void => {
-    console.log('Hello World')
-  }
-
   return (
     <>
       <PageHeader>
@@ -61,10 +58,12 @@ function Transctions({ platform }: Props): React.JSX.Element {
             <FunnelIcon />
             Filter
           </Button>
-          <Button onClick={() => buttonTest()}>
-            <PlusIcon />
-            Add
-          </Button>
+          <AddTransaction onTransactionAdded={loadTransactions} editMode={false}>
+            <Button>
+              <PlusIcon />
+              Add
+            </Button>
+          </AddTransaction>
         </ButtonGroup>
       </PageHeader>
       <div
