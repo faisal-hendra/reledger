@@ -7,21 +7,24 @@ import { FunnelIcon, PlusIcon } from 'lucide-react'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { AddTransaction } from '@/components/AddTransaction'
 import { toast } from 'sonner'
+import FilterMenu from '@/components/FilterMenu'
 
 interface Props {
   platform: string
 }
 
+const INITIAL_FILTER = {
+  month: null,
+  year: null,
+  keyword: null
+}
+
 function Transctions({ platform }: Props): React.JSX.Element {
   const [transactions, setTransactions] = useState<Transaction[]>([])
+  const [filters, setFilters] = useState<TransactionFilters>(INITIAL_FILTER)
 
   const loadTransactions = async (): Promise<void> => {
     try {
-      const filters = {
-        month: null,
-        year: null,
-        keyword: null
-      }
       const data = await window.api.getTransactions(filters)
       setTransactions(data)
     } catch {
@@ -32,11 +35,6 @@ function Transctions({ platform }: Props): React.JSX.Element {
   useEffect(() => {
     const initializeTransactions = async (): Promise<void> => {
       try {
-        const filters = {
-          month: null,
-          year: null,
-          keyword: null
-        }
         const data = await window.api.getTransactions(filters)
         setTransactions(data)
       } catch {
@@ -59,10 +57,12 @@ function Transctions({ platform }: Props): React.JSX.Element {
     <>
       <PageHeader>
         <ButtonGroup>
-          <Button variant="outline">
-            <FunnelIcon />
-            Filter
-          </Button>
+          <FilterMenu onFilterChange={setFilters} onTransactionFiltered={loadTransactions}>
+            <Button variant="outline">
+              <FunnelIcon />
+              Filter
+            </Button>
+          </FilterMenu>
           <AddTransaction
             onTransactionAdded={loadTransactions}
             editMode={false}
