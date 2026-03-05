@@ -7,7 +7,7 @@ import { FunnelIcon, PlusIcon } from 'lucide-react'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { AddTransaction } from '@/components/AddTransaction'
 import { toast } from 'sonner'
-import FilterMenu from '@/components/FilterMenu'
+import FilterTransaction from '@/components/FilterTransaction'
 
 interface Props {
   platform: string
@@ -57,12 +57,12 @@ function Transctions({ platform }: Props): React.JSX.Element {
     <>
       <PageHeader>
         <ButtonGroup>
-          <FilterMenu onFilterChange={setFilters} onTransactionFiltered={loadTransactions}>
+          <FilterTransaction onFilterChange={setFilters} onTransactionFiltered={loadTransactions}>
             <Button variant="outline">
               <FunnelIcon />
               Filter
             </Button>
-          </FilterMenu>
+          </FilterTransaction>
           <AddTransaction
             onTransactionAdded={loadTransactions}
             editMode={false}

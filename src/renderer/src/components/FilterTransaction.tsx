@@ -34,7 +34,11 @@ interface Props {
   }) => void
   onTransactionFiltered?: () => void
 }
-function FilterMenu({ children, onFilterChange, onTransactionFiltered }: Props): React.JSX.Element {
+function FilterTransaction({
+  children,
+  onFilterChange,
+  onTransactionFiltered
+}: Props): React.JSX.Element {
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
   const [selectedYear, setSelectedYear] = useState(YEAR)
   const [searchTerm, setSearchTerm] = useState('')
@@ -62,8 +66,8 @@ function FilterMenu({ children, onFilterChange, onTransactionFiltered }: Props):
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent>
-        <Label className="pt-2 pb-2">By Name</Label>
+      <PopoverContent sideOffset={10}>
+        <Label className="pb-2">By Name</Label>
         <InputGroup>
           <InputGroupAddon>
             <SearchIcon />
@@ -115,4 +119,4 @@ function FilterMenu({ children, onFilterChange, onTransactionFiltered }: Props):
   )
 }
 
-export default FilterMenu
+export default FilterTransaction
