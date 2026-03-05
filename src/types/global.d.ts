@@ -36,6 +36,9 @@ declare global {
     getRecentTransactions: (limit: number) => Promise<Transaction[]>
     getMonthlyTotal: (filters: MonthlyTotalFilters) => Promise<MonthlyTotal>
     getTransactionById: (id: number) => Promise<Transaction | null>
+    getFullMonthlyTotal: (
+      year: number
+    ) => Promise<{ month: number; income: number; expense: number }[] | undefined>
   }
 
   interface Window {

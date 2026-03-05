@@ -174,6 +174,31 @@ class AppDatabase {
     }
   }
 
+  getFullMonthlyTotal(
+    year: number
+  ): { month: number; income: number; expense: number }[] | undefined {
+    try {
+      const query = `
+      SELECT 
+        CAST(strftime('%m', date) AS INTEGER) as month,
+        SUM(CASE WHEN transaction_type = 'income' THEN amount ELSE 0 END) as income,
+        SUM(CASE WHEN transaction_type = 'expense' THEN amount ELSE 0 END) as expense
+      FROM transactions
+      WHERE strftime('%Y', date) = ?
+      GROUP BY month
+    `
+      const stmt = this.db.prepare(query)
+      console.log(
+        'From DB: ',
+        stmt.all(year.toString()) as { month: number; income: number; expense: number }[]
+      )
+      return stmt.all(year.toString()) as { month: number; income: number; expense: number }[]
+    } catch (error) {
+      console.log('Failed to fetch full monthly total', error)
+      throw error
+    }
+  }
+
   close(): void {
     try {
       this.db.close()

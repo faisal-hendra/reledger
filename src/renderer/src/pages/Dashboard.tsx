@@ -4,6 +4,7 @@ import RecentTransactions from '@/components/RecentTransactions'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import PageHeader from '@/components/PageHeader'
+import { TrendChart } from '@/components/TrendChart'
 
 interface Props {
   platform: string
@@ -31,6 +32,26 @@ function Dashboard({ platform }: Props): React.JSX.Element {
       icon: React.ElementType
     }>
   >([])
+
+  const [FullMonthlyTotal, setFullMonthlyTotal] = useState<
+    { month: number; income: number; expense: number }[] | undefined
+  >(undefined)
+
+  // Get full breakdown of this year
+  // Will be used for visualization
+  useEffect(() => {
+    const loadFullMonthlyTotal = async (): Promise<void> => {
+      try {
+        const data: { month: number; income: number; expense: number }[] | undefined =
+          await window.api.getFullMonthlyTotal(2026)
+        setFullMonthlyTotal(data)
+        console.log('Full monthly total this year:', data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    loadFullMonthlyTotal()
+  }, [])
 
   // Load this month total
   useEffect(() => {
@@ -197,6 +218,8 @@ function Dashboard({ platform }: Props): React.JSX.Element {
             </Card>
           ))}
         </div>
+        <br />
+        <TrendChart data={FullMonthlyTotal} />
         <br />
         <RecentTransactions recentTransactions={recentTransactions} />
       </div>

@@ -14,6 +14,9 @@ declare global {
       getRecentTransactions: (limit: number) => Promise<Transaction[] | null>
       getMonthlyTotal: (filters: MonthlyTotalFilters) => Promise<MonthlyTotal | null>
       getTransactionById: (id: number) => Promise<Transaction | null>
+      getFullMonthlyTotal: (
+        year: number
+      ) => Promise<{ month: number; income: number; expense: number }[] | undefined>
     }
   }
 }
