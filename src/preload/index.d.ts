@@ -17,6 +17,7 @@ declare global {
       getFullMonthlyTotal: (
         year: number
       ) => Promise<{ month: number; income: number; expense: number }[] | undefined>
+      getAvailableYears: () => Promise<GetYear[] | null>
     }
   }
 }

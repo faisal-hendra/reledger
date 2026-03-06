@@ -29,4 +29,7 @@ export default function setUpHandlers(db: AppDatabase): void {
   ipcMain.handle('getFullMonthlyTotal', (_, year) => {
     return db.getFullMonthlyTotal(year)
   })
+  ipcMain.handle('getAvailableYears', () => {
+    return db.getAvailableYears()
+  })
 }

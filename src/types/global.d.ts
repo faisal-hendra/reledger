@@ -27,6 +27,10 @@ declare global {
     year: number
   }
 
+  interface GetYear {
+    year: number
+  }
+
   interface WindowAPI {
     platform: NodeJS.Platform
     getTransactions: (filters: TransactionFilters) => Promise<Transaction[]>
@@ -39,6 +43,7 @@ declare global {
     getFullMonthlyTotal: (
       year: number
     ) => Promise<{ month: number; income: number; expense: number }[] | undefined>
+    getAvailableYears: () => Promise<{ year: number }[]>
   }
 
   interface Window {

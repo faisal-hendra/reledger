@@ -199,6 +199,20 @@ class AppDatabase {
     }
   }
 
+  getAvailableYears(): GetYear[] {
+    try {
+      const stmt = this.db.prepare(`
+      SELECT DISTINCT CAST(strftime('%Y', date) AS INTEGER) AS year 
+      FROM transactions 
+      ORDER BY year
+    `)
+      return stmt.all() as GetYear[]
+    } catch (error) {
+      console.log('Failed to fetch years: ', error)
+      throw error
+    }
+  }
+
   close(): void {
     try {
       this.db.close()
