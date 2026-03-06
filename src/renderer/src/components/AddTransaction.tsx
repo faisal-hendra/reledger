@@ -52,7 +52,6 @@ export function AddTransaction({
   children,
   onTransactionAdded,
   editMode,
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   idToEdit,
   alert
 }: Props): React.JSX.Element {
@@ -147,7 +146,7 @@ export function AddTransaction({
           <div className="mt-4 flex items-start gap-4">
             {/* Left column */}
             <FieldGroup>
-              <Field>
+              <Field className="pt-4">
                 <Label htmlFor="transaction_type">Type</Label>
                 <Select
                   value={formData.transaction_type}
@@ -203,7 +202,7 @@ export function AddTransaction({
 
             {/* Right column */}
             <FieldGroup>
-              <Field>
+              <Field className="pt-4">
                 <Label htmlFor="category">Category</Label>
                 <Input
                   id="category"
@@ -259,7 +258,7 @@ export function AddTransaction({
               </Field>
             </FieldGroup>
           </div>
-          <div className="mt-4">
+          <div className="pt-4">
             <DialogFooter>
               <DialogClose asChild>
                 <Button variant="outline">Cancel</Button>

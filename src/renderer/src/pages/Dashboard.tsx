@@ -227,14 +227,14 @@ function Dashboard({ platform }: Props): React.JSX.Element {
             </Card>
           ))}
         </div>
-        <div className="mt-6">
+        <div className="pt-6">
           <TrendChart
             data={FullMonthlyTotal}
             displayIncomeChart={displayIncomeChart}
             displayExpenseChart={displayExpenseChart}
           />
         </div>
-        <div className="mt-6">
+        <div className="pt-6">
           <RecentTransactions recentTransactions={recentTransactions} />
         </div>
       </div>

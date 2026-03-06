@@ -92,7 +92,7 @@ function FilterTransaction({
             />
           </InputGroupAddon>
         </InputGroup>
-        <div className="mt-4 flex grid-cols-2 gap-2">
+        <div className="mt-4 flex grid-cols-2 gap-2 pt-4">
           <div>
             <Label className="pb-2">By Month</Label>
             <Select
