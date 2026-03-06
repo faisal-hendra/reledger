@@ -180,12 +180,32 @@ class AppDatabase {
     try {
       const query = `
       SELECT 
-        CAST(strftime('%m', date) AS INTEGER) as month,
-        SUM(CASE WHEN transaction_type = 'income' THEN amount ELSE 0 END) as income,
-        SUM(CASE WHEN transaction_type = 'expense' THEN amount ELSE 0 END) as expense
-      FROM transactions
-      WHERE strftime('%Y', date) = ?
-      GROUP BY month
+        month.month as month,
+        COALESCE(total.income, 0) as income,
+        COALESCE(total.expense, 0) as expense
+      FROM (
+        SELECT 1 as month UNION ALL
+        SELECT 2 as month UNION ALL
+        SELECT 3 as month UNION ALL
+        SELECT 4 as month UNION ALL
+        SELECT 5 as month UNION ALL
+        SELECT 6 as month UNION ALL
+        SELECT 7 as month UNION ALL
+        SELECT 8 as month UNION ALL
+        SELECT 9 as month UNION ALL
+        SELECT 10 as month UNION ALL
+        SELECT 11 as month UNION ALL
+        SELECT 12 as month
+      ) as month
+      LEFT JOIN (
+        SELECT 
+          CAST(strftime('%m', date) AS INTEGER) as month,
+          SUM(CASE WHEN transaction_type = 'income' THEN amount ELSE 0 END) as income,
+          SUM(CASE WHEN transaction_type = 'expense' THEN amount ELSE 0 END) as expense
+        FROM transactions
+        WHERE strftime('%Y', date) = ?
+        GROUP BY month
+      ) as total ON month.month = total.month
     `
       const stmt = this.db.prepare(query)
       console.log(

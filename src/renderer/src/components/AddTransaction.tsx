@@ -234,7 +234,7 @@ export function AddTransaction({
                       <div className="flex gap-2 items-center">
                         <CalendarIcon className="opacity-30" />
                         {formData.date ? (
-                          dayjs(formData.date).format('YYYY-MM-DD')
+                          dayjs(formData.date).format('DD MMMM YYYY')
                         ) : (
                           <span>Pick a date</span>
                         )}

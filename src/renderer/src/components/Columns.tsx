@@ -57,7 +57,7 @@ export const createColumns = (
     },
     cell: ({ row }) => {
       const date: string = row.getValue('date')
-      return <div className="px-3">{dayjs(date).format('DD MMM YYYY')}</div>
+      return <div className="px-3">{dayjs(date).format('DD MMMM YYYY')}</div>
     }
   },
   {
