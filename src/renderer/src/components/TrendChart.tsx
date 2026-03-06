@@ -8,6 +8,7 @@ import {
 } from '@/components/ui/chart'
 import dayjs from 'dayjs'
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
+import { Card } from './ui/card'
 
 const chartConfig = {
   income: {
@@ -31,9 +32,9 @@ export function TrendChart({
   displayExpenseChart
 }: Props): React.JSX.Element {
   return (
-    <>
+    <Card>
       <div className="relative">
-        <div className="absolute font-bold text-5xl text-right right-0 top-7 opacity-30 font-mono">
+        <div className="absolute font-bold text-5xl text-right right-7 top-7 opacity-30 font-mono">
           {dayjs().year()}
         </div>
         <ChartContainer config={chartConfig} className="h-100 w-full">
@@ -67,6 +68,6 @@ export function TrendChart({
           </BarChart>
         </ChartContainer>
       </div>
-    </>
+    </Card>
   )
 }
