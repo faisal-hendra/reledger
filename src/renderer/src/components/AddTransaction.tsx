@@ -143,7 +143,6 @@ export function AddTransaction({
         <form onSubmit={!editMode ? handleSubmit : handleEdit}>
           <DialogHeader>
             <DialogTitle>{!editMode ? 'Add transaction' : 'Edit transaction'}</DialogTitle>
-            <br />
           </DialogHeader>
           <div className="mt-4 flex items-start gap-4">
             {/* Left column */}
@@ -260,13 +259,14 @@ export function AddTransaction({
               </Field>
             </FieldGroup>
           </div>
-          <br />
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-            <Button type="submit">Save changes</Button>
-          </DialogFooter>
+          <div className="mt-4">
+            <DialogFooter>
+              <DialogClose asChild>
+                <Button variant="outline">Cancel</Button>
+              </DialogClose>
+              <Button type="submit">Save changes</Button>
+            </DialogFooter>
+          </div>
         </form>
       </DialogContent>
     </Dialog>
