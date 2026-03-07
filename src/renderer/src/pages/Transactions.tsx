@@ -53,7 +53,11 @@ function Transactions({ platform }: Props): React.JSX.Element {
     <>
       <PageHeader>
         <ButtonGroup>
-          <FilterTransaction onFilterChange={setFilters} onTransactionFiltered={loadTransactions}>
+          <FilterTransaction
+            transactions={transactions}
+            onFilterChange={setFilters}
+            onTransactionFiltered={loadTransactions}
+          >
             <Button variant="outline">
               <FunnelIcon />
             </Button>

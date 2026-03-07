@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { SearchIcon } from 'lucide-react'
+import { SearchIcon, SaveIcon } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
+import { Button } from './ui/button'
+import { saveAs } from 'file-saver'
 
 const MONTHS = [
   { value: null, label: 'All Months' },
@@ -23,6 +25,7 @@ const MONTHS = [
 
 interface Props {
   children: React.ReactNode
+  transactions: Transaction[]
   onFilterChange?: (filters: {
     month: number | null
     year: number | null
@@ -32,6 +35,7 @@ interface Props {
 }
 function FilterTransaction({
   children,
+  transactions,
   onFilterChange,
   onTransactionFiltered
 }: Props): React.JSX.Element {
@@ -56,6 +60,19 @@ function FilterTransaction({
   const handleSearchChange = (value: string): void => {
     setSearchTerm(value)
     onFilterChange?.({ month: selectedMonth, year: selectedYear, keyword: value || null })
+  }
+
+  const handleCSVExport = (): void => {
+    const csvContent = transactions
+      .map((t) => `${t.date},${t.name},${t.amount},${t.category},${t.transaction_type}`)
+      .join('\n')
+    console.log(csvContent)
+    handleCSVDownload(csvContent)
+  }
+
+  const handleCSVDownload = (csv: string): void => {
+    const file = new File([csv], 'transcations.csv', { type: 'text/csv' })
+    saveAs(file)
   }
 
   useEffect(() => {
@@ -134,6 +151,21 @@ function FilterTransaction({
                 ))}
               </SelectContent>
             </Select>
+          </div>
+        </div>
+        <div className="pt-4">
+          <Label>Data</Label>
+          <div className="flex w-full pt-2">
+            <Button
+              className="grow"
+              variant="outline"
+              onClick={() => {
+                handleCSVExport()
+              }}
+            >
+              <SaveIcon />
+              Export CSV
+            </Button>
           </div>
         </div>
       </PopoverContent>
