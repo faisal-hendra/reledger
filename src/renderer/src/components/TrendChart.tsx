@@ -32,9 +32,9 @@ export function TrendChart({
   displayExpenseChart
 }: Props): React.JSX.Element {
   return (
-    <Card>
+    <Card className="px-6">
       <div className="relative">
-        <div className="absolute font-bold text-5xl text-right right-7 top-7 opacity-30 font-mono">
+        <div className="absolute font-bold text-5xl text-right right-3 top-7 opacity-30 font-mono">
           {dayjs().year()}
         </div>
         <ChartContainer config={chartConfig} className="h-100 w-full">
