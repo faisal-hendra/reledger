@@ -18,7 +18,7 @@ import dayjs from 'dayjs'
 
 export const createColumns = (
   onRefresh?: () => void,
-  dislayToast?: (message: string) => void
+  displayToast?: (message: string) => void
 ): ColumnDef<Transaction, unknown>[] => [
   {
     accessorKey: 'transaction_type',
@@ -140,7 +140,7 @@ export const createColumns = (
               }}
               editMode={true}
               idToEdit={transaction.id}
-              alert={() => dislayToast?.('Transaction edited successfully')}
+              alert={() => displayToast?.('Transaction edited successfully')}
             >
               <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
                 <PenIcon />
@@ -151,7 +151,7 @@ export const createColumns = (
             <DeleteTransaction
               id={transaction.id?.toString() || ''}
               onRefresh={onRefresh}
-              alert={() => dislayToast?.('Transaction deleted successfuly')}
+              alert={() => displayToast?.('Transaction deleted successfuly')}
             >
               <DropdownMenuItem variant="destructive" onSelect={(e) => e.preventDefault()}>
                 <TrashIcon />

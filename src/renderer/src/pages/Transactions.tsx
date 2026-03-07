@@ -19,7 +19,7 @@ const INITIAL_FILTER = {
   keyword: null
 }
 
-function Transctions({ platform }: Props): React.JSX.Element {
+function Transactions({ platform }: Props): React.JSX.Element {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [filters, setFilters] = useState<TransactionFilters>(INITIAL_FILTER)
 
@@ -27,8 +27,8 @@ function Transctions({ platform }: Props): React.JSX.Element {
     try {
       const data = await window.api.getTransactions(filters)
       setTransactions(data)
-    } catch {
-      console.log('test')
+    } catch (error) {
+      console.error('Failed to load transactions:', error)
     }
   }
 
@@ -37,8 +37,8 @@ function Transctions({ platform }: Props): React.JSX.Element {
       try {
         const data = await window.api.getTransactions(filters)
         setTransactions(data)
-      } catch {
-        console.log('test')
+      } catch (error) {
+        console.error('Failed to initialize transactions:', error)
       }
     }
 
@@ -83,4 +83,4 @@ function Transctions({ platform }: Props): React.JSX.Element {
   )
 }
 
-export default Transctions
+export default Transactions

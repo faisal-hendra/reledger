@@ -126,9 +126,8 @@ export function AddTransaction({
           if (dataToEdit) {
             setFormData(FETCHED_DATA)
           }
-          console.log('Data to edit: ', dataToEdit)
         } catch (error) {
-          console.log('Failed to fetch transaction to update: ', error)
+          console.error('Failed to fetch transaction to update: ', error)
         }
       }
       fetchDataToEdit()

@@ -38,7 +38,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
     }>
   >([])
 
-  const [FullMonthlyTotal, setFullMonthlyTotal] = useState<
+  const [fullMonthlyTotal, setFullMonthlyTotal] = useState<
     { month: number; income: number; expense: number }[] | undefined
   >(undefined)
 
@@ -229,7 +229,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
         </div>
         <div className="pt-6">
           <TrendChart
-            data={FullMonthlyTotal}
+            data={fullMonthlyTotal}
             displayIncomeChart={displayIncomeChart}
             displayExpenseChart={displayExpenseChart}
           />

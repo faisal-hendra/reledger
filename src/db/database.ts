@@ -9,10 +9,10 @@ class AppDatabase {
     const dbPath = path.join(app.getPath('userData'), 'reledger.sqlite')
     this.db = new Database(dbPath)
     this.db.pragma('journal_mode = WAL')
-    this.setUpDataBase()
+    this.setUpDatabase()
   }
 
-  setUpDataBase(): void {
+  setUpDatabase(): void {
     try {
       this.db.exec(`
         CREATE TABLE IF NOT EXISTS transactions (
@@ -73,12 +73,12 @@ class AppDatabase {
     }
   }
 
-  deleteTransaction(TransactionID: number): void {
+  deleteTransaction(transactionId: number): void {
     try {
       const stmt = this.db.prepare(`
         DELETE FROM transactions WHERE id = ?
       `)
-      stmt.run(TransactionID)
+      stmt.run(transactionId)
     } catch (error) {
       console.error('Failed to delete transaction:', error)
       throw error
@@ -106,9 +106,6 @@ class AppDatabase {
       }
 
       const stmt = this.db.prepare(query)
-      console.log('Transactions From db: ', stmt.all(...params))
-      console.log('Query: ', query)
-      console.log('Parameters: ', params)
       return stmt.all(...params) as Transaction[]
     } catch (error) {
       console.error('Failed to get all transactions:', error)
@@ -117,12 +114,12 @@ class AppDatabase {
     }
   }
 
-  getTransactionById(TransactionID: number): Transaction | null {
+  getTransactionById(transactionId: number): Transaction | null {
     try {
       const stmt = this.db.prepare(`
         SELECT * FROM transactions WHERE id = ?
       `)
-      return stmt.get(TransactionID) as Transaction | null
+      return stmt.get(transactionId) as Transaction | null
     } catch (error) {
       console.error('Failed to get transaction by id:', error)
       throw error
@@ -131,10 +128,8 @@ class AppDatabase {
 
   getRecentTransactions(limit: number): Transaction[] | null {
     try {
-      console.log('Get recent transaction starts')
       const query = `SELECT * FROM transactions ORDER BY date(date) DESC LIMIT ?`
       const stmt = this.db.prepare(query)
-      console.log('Recent transactions from db:', stmt.all(limit) as Transaction[])
       return stmt.all(limit) as Transaction[]
     } catch (error) {
       console.log('Failed to get recent transaction: ', error)
@@ -208,10 +203,6 @@ class AppDatabase {
       ) as total ON month.month = total.month
     `
       const stmt = this.db.prepare(query)
-      console.log(
-        'From DB: ',
-        stmt.all(year.toString()) as { month: number; income: number; expense: number }[]
-      )
       return stmt.all(year.toString()) as { month: number; income: number; expense: number }[]
     } catch (error) {
       console.log('Failed to fetch full monthly total', error)

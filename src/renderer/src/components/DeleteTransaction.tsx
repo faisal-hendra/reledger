@@ -22,9 +22,13 @@ interface Props {
 
 function DeleteTransaction({ children, id, onRefresh, alert }: Props): React.JSX.Element {
   const handleDelete = async (): Promise<void> => {
-    await window.api.deleteTransaction(id)
-    onRefresh?.()
-    alert?.()
+    try {
+      await window.api.deleteTransaction(id)
+      onRefresh?.()
+      alert?.()
+    } catch (error) {
+      console.error('Failed to delete transaction:', error)
+    }
   }
   return (
     <AlertDialog>
