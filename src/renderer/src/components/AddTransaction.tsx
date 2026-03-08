@@ -24,6 +24,27 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover
 import { ChevronDownIcon, CalendarIcon } from 'lucide-react'
 import { Badge } from './ui/badge'
 
+const CATEGORIES = [
+  'Food & Dining',
+  'Shopping',
+  'Transportation',
+  'Bills & Utilities',
+  'Entertainment',
+  'Healthcare',
+  'Education',
+  'Travel',
+  'Salary',
+  'Investment',
+  'Gift',
+  'Loan',
+  'Insurance',
+  'Savings',
+  'Donation',
+  'Freelance',
+  'Gift Card',
+  'Other'
+] as const
+
 import dayjs from 'dayjs'
 
 interface Props {
@@ -203,13 +224,18 @@ export function AddTransaction({
             <FieldGroup>
               <Field className="pt-4">
                 <Label htmlFor="category">Category</Label>
-                <Input
-                  id="category"
-                  value={formData.category}
-                  onChange={set('category')}
-                  placeholder="e.g. Food, Transport, Salary"
-                  required
-                />
+                <Select value={formData.category} onValueChange={(value) => set('category')(value)}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Select a category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {CATEGORIES.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </Field>
 
               <Field>
