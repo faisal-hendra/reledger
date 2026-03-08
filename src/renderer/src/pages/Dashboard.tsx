@@ -48,7 +48,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
     const loadFullMonthlyTotal = async (): Promise<void> => {
       try {
         const data: { month: number; income: number; expense: number }[] | undefined =
-          await window.api.getFullMonthlyTotal(2026)
+          await window.api.getFullMonthlyTotal(dayjs().year())
         setFullMonthlyTotal(data)
       } catch (error) {
         console.log(error)

@@ -63,10 +63,12 @@ function FilterTransaction({
   }
 
   const handleCSVExport = (): void => {
-    const csvContent = transactions
-      .map((t) => `${t.date},${t.name},${t.amount},${t.category},${t.transaction_type}`)
+    const csvContent = [
+      ['Date', 'Name', 'Amount', 'Category', 'Type'],
+      ...transactions.map((t) => [t.date, t.name, t.amount, t.category, t.transaction_type])
+    ]
+      .map((row) => row.join(','))
       .join('\n')
-    console.log(csvContent)
     handleCSVDownload(csvContent)
   }
 
