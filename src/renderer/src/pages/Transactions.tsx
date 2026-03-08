@@ -1,6 +1,6 @@
 import { createColumns } from '@/components/Columns'
 import { DataTable } from '@/components/DataTable'
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect } from 'react'
 import PageHeader from '@/components/PageHeader'
 import { Button } from '@/components/ui/button'
 import { FunnelIcon, PlusIcon } from 'lucide-react'
@@ -24,14 +24,14 @@ function Transactions({ platform }: Props): React.JSX.Element {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [filters, setFilters] = useState<TransactionFilters>(INITIAL_FILTER)
 
-  const loadTransactions = useCallback(async (): Promise<void> => {
+  const loadTransactions = async (): Promise<void> => {
     try {
       const data = await window.api.getTransactions(filters)
       setTransactions(data)
     } catch (error) {
       console.error('Failed to load transactions:', error)
     }
-  }, [filters])
+  }
 
   useEffect(() => {
     const initializeTransactions = async (): Promise<void> => {
@@ -51,7 +51,16 @@ function Transactions({ platform }: Props): React.JSX.Element {
   }
 
   useEffect(() => {
-    loadTransactions()
+    const handleFilterChange = async (): Promise<void> => {
+      try {
+        const data = await window.api.getTransactions(filters)
+        setTransactions(data)
+      } catch (error) {
+        console.error('Failed to load transactions:', error)
+      }
+    }
+
+    handleFilterChange()
   }, [filters])
 
   return (

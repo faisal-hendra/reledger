@@ -23,27 +23,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ChevronDownIcon, CalendarIcon } from 'lucide-react'
 import { Badge } from './ui/badge'
-
-const CATEGORIES = [
-  'Food & Dining',
-  'Shopping',
-  'Transportation',
-  'Bills & Utilities',
-  'Entertainment',
-  'Healthcare',
-  'Education',
-  'Travel',
-  'Salary',
-  'Investment',
-  'Gift',
-  'Loan',
-  'Insurance',
-  'Savings',
-  'Donation',
-  'Freelance',
-  'Gift Card',
-  'Other'
-] as const
+import { CATEGORIES } from '@/constants/transaction-categories'
 
 import dayjs from 'dayjs'
 

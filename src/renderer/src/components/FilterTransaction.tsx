@@ -6,6 +6,7 @@ import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Button } from './ui/button'
 import { saveAs } from 'file-saver'
+import { FILTER_CATEGORIES as CATEGORIES } from '@/constants/transaction-categories'
 
 const MONTHS = [
   { value: null, label: 'All Months' },
@@ -22,28 +23,6 @@ const MONTHS = [
   { value: 11, label: 'November' },
   { value: 12, label: 'December' }
 ]
-
-const CATEGORIES = [
-  'All Categories',
-  'Food & Dining',
-  'Shopping',
-  'Transportation',
-  'Bills & Utilities',
-  'Entertainment',
-  'Healthcare',
-  'Education',
-  'Travel',
-  'Salary',
-  'Investment',
-  'Gift',
-  'Loan',
-  'Insurance',
-  'Savings',
-  'Donation',
-  'Freelance',
-  'Gift Card',
-  'Other'
-] as const
 
 interface Props {
   children: React.ReactNode
