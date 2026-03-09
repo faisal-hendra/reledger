@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { SearchIcon, SaveIcon, RefreshCwIcon } from 'lucide-react'
+import { SearchIcon, SaveIcon, RefreshCwIcon, FunnelIcon } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
@@ -126,7 +126,10 @@ function FilterTransaction({
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent sideOffset={10}>
         <div className="flex justify-between items-center opacity-50 pb-2">
-          <h3>Filter Transactions</h3>
+          <div className="flex gap-2 items-center">
+            <FunnelIcon className="h-4 w-4" />
+            <Label>Filter Transactions</Label>
+          </div>
           <Button
             variant="ghost"
             onClick={() => {
@@ -136,7 +139,6 @@ function FilterTransaction({
             <RefreshCwIcon className="w-4 h-4" />
           </Button>
         </div>
-
         <Label className="pb-2">By Name</Label>
         <InputGroup>
           <InputGroupAddon>
