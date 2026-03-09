@@ -54,7 +54,7 @@ function FilterDashboard({
     fetchAvailableYears()
   }, [])
 
-  const onReset = (): void => {
+  const handleReset = (): void => {
     setMonth(dayjs().month() + 1)
     setYear(dayjs().year())
   }
@@ -72,7 +72,7 @@ function FilterDashboard({
             <Button
               variant="ghost"
               onClick={() => {
-                onReset()
+                handleReset()
               }}
             >
               <RefreshCwIcon className="w-4 h-4" />

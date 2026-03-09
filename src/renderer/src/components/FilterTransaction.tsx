@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { SearchIcon, SaveIcon } from 'lucide-react'
+import { SearchIcon, SaveIcon, RefreshCwIcon } from 'lucide-react'
 import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
@@ -108,10 +108,35 @@ function FilterTransaction({
     onTransactionFiltered?.()
   }, [selectedMonth, selectedYear, searchTerm])
 
+  const handleReset = (): void => {
+    setSelectedMonth(null)
+    setSelectedYear(null)
+    setSearchTerm('')
+    setSelectedCategory('All Categories')
+    onFilterChange?.({
+      month: null,
+      year: null,
+      keyword: null,
+      category: null
+    })
+  }
+
   return (
     <Popover>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent sideOffset={10}>
+        <div className="flex justify-between items-center opacity-50 pb-2">
+          <h3>Filter Transactions</h3>
+          <Button
+            variant="ghost"
+            onClick={() => {
+              handleReset()
+            }}
+          >
+            <RefreshCwIcon className="w-4 h-4" />
+          </Button>
+        </div>
+
         <Label className="pb-2">By Name</Label>
         <InputGroup>
           <InputGroupAddon>
