@@ -69,7 +69,7 @@ function createWindow(): void {
     // Delay to match the CSS animation (kinda...)
     setTimeout(() => {
       process.platform === 'win32' && dimTitlebar()
-    }, 100)
+    }, 65)
   })
 }
 
