@@ -34,6 +34,7 @@ declare global {
 
   interface WindowAPI {
     platform: NodeJS.Platform
+    dimTitlebar: (isDimmed: boolean) => void
     getTransactions: (filters: TransactionFilters) => Promise<Transaction[]>
     addTransaction: (transaction: Transaction) => Promise<void>
     deleteTransaction: (transactionId: string) => Promise<void>

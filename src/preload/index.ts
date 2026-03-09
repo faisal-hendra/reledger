@@ -5,6 +5,11 @@ import { electronAPI } from '@electron-toolkit/preload'
 const api = {
   // Get oprating system name
   platform: process.platform, // 'win32' | 'darwin' | 'linux'
+
+  // Controlbox dimming on windows
+  dimTitlebar: (isDimmed) => ipcRenderer.send('dim-titlebar', isDimmed),
+
+  // Databse operations
   getTransactions: (filters: TransactionFilters) => ipcRenderer.invoke('getTransactions', filters),
   addTransaction: (transaction: Transaction) => ipcRenderer.invoke('addTransaction', transaction),
   deleteTransaction: (transactionId: string) =>

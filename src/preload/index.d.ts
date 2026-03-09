@@ -7,6 +7,7 @@ declare global {
     electron: ElectronAPI
     api: {
       platform: string
+      dimTitlebar: (isDimmed) => void
       getTransactions: (filters: TransactionFilters) => Promise<Transaction[]>
       addTransaction: (transaction: Transaction) => Promise<void>
       deleteTransaction: (transactionId: string) => Promise<void>

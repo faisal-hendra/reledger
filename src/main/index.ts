@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow } from 'electron'
+import { app, shell, BrowserWindow, ipcMain } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -51,6 +51,26 @@ function createWindow(): void {
   } else {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'))
   }
+
+  // Disable controlbox on windows
+  ipcMain.on('dim-titlebar', (event, isDimmed) => {
+    const dimTitlebar = (): void => {
+      mainWindow.setTitleBarOverlay({
+        color: isDimmed ? '#0D0D0D' : '#1B1B1B', // dim or restore
+        symbolColor: isDimmed ? '#555555' : '#FFFFFF' // dim or restore icons
+      })
+
+      // Disable control box control when dimmed
+      mainWindow.setClosable(isDimmed ? false : true)
+      mainWindow.setMinimizable(isDimmed ? false : true)
+      mainWindow.setMaximizable(isDimmed ? false : true)
+    }
+
+    // Delay to match the CSS animation (kinda...)
+    setTimeout(() => {
+      process.platform === 'win32' && dimTitlebar()
+    }, 100)
+  })
 }
 
 // This method will be called when Electron has finished

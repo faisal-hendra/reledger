@@ -136,7 +136,13 @@ export function AddTransaction({
   }, [idToEdit])
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        setOpen(isOpen)
+        window.api.dimTitlebar(isOpen)
+      }}
+    >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-md">
         <form onSubmit={!editMode ? handleSubmit : handleEdit}>
