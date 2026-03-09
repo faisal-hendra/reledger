@@ -27,7 +27,7 @@ function FilterTransaction({
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('')
   const [availableYears, setAvailableYears] = useState<{ value: number | null; label: string }[]>([
     { value: null, label: 'All Years' }
   ])
@@ -95,7 +95,7 @@ function FilterTransaction({
     setSelectedMonth(null)
     setSelectedYear(null)
     setSearchTerm('')
-    setSelectedCategory('All Categories')
+    setSelectedCategory(null)
     onFilterChange?.({
       month: null,
       year: null,
