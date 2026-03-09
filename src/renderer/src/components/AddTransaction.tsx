@@ -23,7 +23,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ChevronDownIcon, CalendarIcon } from 'lucide-react'
 import { Badge } from './ui/badge'
-import { CATEGORIES } from '@/constants/transaction-categories'
+import { CATEGORIES } from '@/constants/categories'
 
 import dayjs from 'dayjs'
 

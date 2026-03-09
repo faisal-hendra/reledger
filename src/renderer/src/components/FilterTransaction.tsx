@@ -6,7 +6,7 @@ import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Button } from './ui/button'
 import { saveAs } from 'file-saver'
-import { FILTER_CATEGORIES as CATEGORIES } from '@/constants/transaction-categories'
+import { FILTER_CATEGORIES as CATEGORIES } from '@/constants/categories'
 
 const MONTHS = [
   { value: null, label: 'All Months' },
