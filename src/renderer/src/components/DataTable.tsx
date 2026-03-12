@@ -1,6 +1,6 @@
 'use client'
 import * as React from 'react'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { ButtonGroup } from '@/components/ui/button-group'
 import {
@@ -40,8 +40,8 @@ export function DataTable<TData, TValue>({
   columns,
   data
 }: DataTableProps<TData, TValue>): React.ReactElement {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [pagination, setPagination] = React.useState<{ pageIndex: number; pageSize: number }>({
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [pagination, setPagination] = useState<{ pageIndex: number; pageSize: number }>({
     pageIndex: 0,
     pageSize: 15
   })
