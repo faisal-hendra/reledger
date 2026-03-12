@@ -32,6 +32,18 @@ declare global {
     year: number
   }
 
+  interface CategoryPercentage {
+    category: string
+    category_count: number
+    percentage: number
+  }
+
+  interface CategoryPerecentageFilters {
+    year: number
+    month: number
+    type: 'income' | 'expense'
+  }
+
   interface WindowAPI {
     platform: NodeJS.Platform
     dimTitlebar: (isDimmed: boolean) => void
@@ -46,6 +58,9 @@ declare global {
       year: number
     ) => Promise<{ month: number; income: number; expense: number }[] | undefined>
     getAvailableYears: () => Promise<{ year: number }[]>
+    getCategoryPercentage: (
+      filters: CategoryPerecentageFilters
+    ) => Promise<CategoryPercentage[] | null>
   }
 
   interface Window {

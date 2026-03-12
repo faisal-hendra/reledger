@@ -19,6 +19,9 @@ declare global {
         year: number
       ) => Promise<{ month: number; income: number; expense: number }[] | undefined>
       getAvailableYears: () => Promise<GetYear[] | null>
+      getCategoryPercentage: (
+        filters: CategoryPerecentageFilters
+      ) => Promise<CategoryPercentage[] | null>
     }
   }
 }

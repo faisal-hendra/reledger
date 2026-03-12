@@ -228,6 +228,52 @@ class AppDatabase {
     }
   }
 
+  getCategoryPercentage(filters: CategoryPerecentageFilters): CategoryPercentage[] | null {
+    try {
+      const stmt = this.db.prepare(`
+        SELECT
+          category,
+          COUNT(*) AS category_count,
+          COUNT(*) * 100.0 / (
+            SELECT COUNT(*)
+            FROM transactions
+            WHERE
+              strftime('%Y', date) = ?
+              AND strftime('%m', date) = ?
+              AND transaction_type = ?
+          ) AS percentage
+        FROM
+          transactions
+        WHERE
+          strftime('%Y', date) = ?
+          AND strftime('%m', date) = ?
+          AND transaction_type = ?
+        GROUP BY
+          category;`)
+      console.log(
+        stmt.all(
+          filters.year.toString(),
+          filters.month.toString().padStart(2, '0'),
+          filters.type,
+          filters.year.toString(),
+          filters.month.toString().padStart(2, '0'),
+          filters.type
+        ) as CategoryPercentage[]
+      )
+      return stmt.all(
+        filters.year.toString(),
+        filters.month.toString().padStart(2, '0'),
+        filters.type,
+        filters.year.toString(),
+        filters.month.toString().padStart(2, '0'),
+        filters.type
+      ) as CategoryPercentage[]
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }
+
   close(): void {
     try {
       this.db.close()

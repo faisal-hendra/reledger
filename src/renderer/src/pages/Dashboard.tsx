@@ -7,6 +7,7 @@ import PageHeader from '@/components/PageHeader'
 import { TrendChart } from '@/components/TrendChart'
 import FilterDashboard from '@/components/FilterDashboard'
 import { Button } from '@/components/ui/button'
+import BreakdownChart from '@/components/BreakdownChart'
 
 interface Props {
   platform: string
@@ -44,6 +45,9 @@ function Dashboard({ platform }: Props): React.JSX.Element {
 
   const [activeYear, setActiveYear] = useState(dayjs().year())
   const [activeMonth, setActiveMonth] = useState(dayjs().month() + 1)
+
+  //
+  const [categoryBreakdown, setCategoryBreakdown] = useState<CategoryPercentage[] | null>([])
 
   // Get full breakdown of this year
   // Will be used for visualization
@@ -192,6 +196,20 @@ function Dashboard({ platform }: Props): React.JSX.Element {
     return styling
   }
 
+  useEffect(() => {
+    const getCategory = async (): Promise<void> => {
+      const filters: CategoryPerecentageFilters = {
+        year: activeYear,
+        month: activeMonth,
+        type: 'expense'
+      }
+      const data = await window.api.getCategoryPercentage(filters)
+      console.log(data)
+      setCategoryBreakdown(data)
+    }
+    getCategory()
+  }, [activeMonth, activeYear])
+
   return (
     <>
       <PageHeader>
@@ -234,13 +252,18 @@ function Dashboard({ platform }: Props): React.JSX.Element {
             </Card>
           ))}
         </div>
-        <div className="pt-6">
-          <TrendChart
-            data={fullMonthlyTotal}
-            displayIncomeChart={displayIncomeChart}
-            displayExpenseChart={displayExpenseChart}
-            year={activeYear}
-          />
+        <div className="flex grid grid-cols-1 lg:grid-cols-5 gap-6 pt-6 overflow-visible">
+          <div className="lg:col-span-4">
+            <TrendChart
+              data={fullMonthlyTotal}
+              displayIncomeChart={displayIncomeChart}
+              displayExpenseChart={displayExpenseChart}
+              year={activeYear}
+            />
+          </div>
+          <div className="lg:col-span-1">
+            <BreakdownChart data={categoryBreakdown} />
+          </div>
         </div>
         <div className="pt-6">
           <RecentTransactions recentTransactions={recentTransactions} />

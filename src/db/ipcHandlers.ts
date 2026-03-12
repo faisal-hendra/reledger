@@ -82,4 +82,13 @@ export default function setUpHandlers(db: AppDatabase): void {
       throw error
     }
   })
+
+  ipcMain.handle('getCategoryPercentage', async (_, filters) => {
+    try {
+      return await db.getCategoryPercentage(filters)
+    } catch (error) {
+      console.error('Failed to get category percentage: ', error)
+      throw error
+    }
+  })
 }

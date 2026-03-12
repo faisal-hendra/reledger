@@ -32,7 +32,7 @@ function createWindow(): void {
       sandbox: false
     },
     titleBarStyle: 'hidden',
-    alwaysOnTop: true
+    alwaysOnTop: false
   })
 
   mainWindow.on('ready-to-show', () => {
