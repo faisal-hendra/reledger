@@ -81,7 +81,7 @@ function FilterTransaction({
         const yearsData = data.map((year) => ({ value: year?.year, label: year?.year.toString() }))
         setAvailableYears([{ value: null, label: 'All Years' }, ...yearsData])
       } catch (error) {
-        console.log(error)
+        console.error('Failed to fetch available years:', error)
       }
     }
     fetchAvailableYears()

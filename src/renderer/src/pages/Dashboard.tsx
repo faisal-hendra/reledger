@@ -58,11 +58,11 @@ function Dashboard({ platform }: Props): React.JSX.Element {
           await window.api.getFullMonthlyTotal(activeYear)
         setFullMonthlyTotal(data)
       } catch (error) {
-        console.log(error)
+        console.error('Failed to load full monthly total:', error)
       }
     }
     loadFullMonthlyTotal()
-  }, [activeYear, activeMonth])
+  }, [activeYear])
 
   // Load this month total
   useEffect(() => {
@@ -75,7 +75,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
         const data = await window.api.getMonthlyTotal(filters)
         setThisMonthTotal(data)
       } catch (error) {
-        console.log('Failed to fetch monthly total', error)
+        console.error('Failed to fetch monthly total:', error)
       }
     }
     loadThisMonthTotal()
@@ -92,7 +92,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
         const data = await window.api.getMonthlyTotal(filters)
         setLastMonthTotal(data)
       } catch (error) {
-        console.log('Failed to fetch last month total', error)
+        console.error('Failed to fetch last month total:', error)
       }
     }
     loadLastMonthTotal()
@@ -107,7 +107,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
         const data = await window.api.getRecentTransactions(rowCount)
         setRecentTransactions(data)
       } catch (error) {
-        console.log('Failed to fetch recent transactions', error)
+        console.error('Failed to fetch recent transactions:', error)
       }
     }
     loadRecentTransactions()
@@ -204,7 +204,6 @@ function Dashboard({ platform }: Props): React.JSX.Element {
         type: 'expense'
       }
       const data = await window.api.getCategoryPercentage(filters)
-      console.log(data)
       setCategoryBreakdown(data)
     }
     getCategory()

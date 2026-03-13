@@ -48,7 +48,7 @@ function FilterDashboard({
         const yearsArray = yearsData.map((year) => year?.year)
         setAvailableYears([...availableYears, ...yearsArray])
       } catch (error) {
-        console.log(error)
+        console.error('Failed to fetch available years:', error)
       }
     }
     fetchAvailableYears()

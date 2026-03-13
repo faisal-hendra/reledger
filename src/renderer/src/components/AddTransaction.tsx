@@ -102,7 +102,7 @@ export function AddTransaction({
       onTransactionAdded?.()
       alert?.('Transaction edited successfully')
     } catch (error) {
-      console.log(error)
+      console.error('Failed to edit transaction:', error)
     }
   }
 
@@ -112,7 +112,6 @@ export function AddTransaction({
       const fetchDataToEdit = async (): Promise<void> => {
         try {
           if (idToEdit === undefined) {
-            console.error('idToEdit is not available')
             return
           }
           const dataToEdit = await window.api.getTransactionById(idToEdit)
@@ -128,7 +127,7 @@ export function AddTransaction({
             setFormData(FETCHED_DATA)
           }
         } catch (error) {
-          console.error('Failed to fetch transaction to update: ', error)
+          console.error('Failed to fetch transaction to update:', error)
         }
       }
       fetchDataToEdit()
