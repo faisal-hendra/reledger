@@ -18,11 +18,13 @@ interface Props {
     category: string | null
   }) => void
   onTransactionFiltered?: () => void
+  setIsFiltering: (value: boolean) => void
 }
 function FilterTransaction({
   children,
   onFilterChange,
-  onTransactionFiltered
+  onTransactionFiltered,
+  setIsFiltering
 }: Props): React.JSX.Element {
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
@@ -89,6 +91,7 @@ function FilterTransaction({
 
   useEffect(() => {
     onTransactionFiltered?.()
+    setIsFiltering(true)
   }, [selectedMonth, selectedYear, searchTerm])
 
   const handleReset = (): void => {

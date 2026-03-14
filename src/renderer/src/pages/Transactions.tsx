@@ -27,10 +27,11 @@ function Transactions({ platform }: Props): React.JSX.Element {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [filters, setFilters] = useState<TransactionFilters>(INITIAL_FILTER)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [isFiltering, setIsfiltering] = useState<boolean>(false)
 
   const loadTransactions = async (): Promise<void> => {
     try {
-      setIsLoading(true)
+      !isFiltering && setIsLoading(true)
       const data = await window.api.getTransactions(filters)
       setTransactions(data)
     } catch (error) {
@@ -124,6 +125,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
             transactions={transactions}
             onFilterChange={setFilters}
             onTransactionFiltered={loadTransactions}
+            setIsFiltering={setIsfiltering}
           >
             <Button variant="outline">
               <FunnelIcon />
