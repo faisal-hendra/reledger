@@ -2,7 +2,7 @@
 
 A personal ledger and financial journaling desktop application built with Electron, React, and TypeScript (Work In Progress).
 
-<img width="auto" height="auto" alt="Image" src="https://github.com/user-attachments/assets/76fc9529-cc15-4079-acd1-05325f8eb8dc" />
+<img width="auto" height="auto" alt="Image" src="https://github.com/user-attachments/assets/7ecff224-9cac-4191-99bc-5258c9c12508" />
 
 > **Note**: This project is currently in active development. Core features are functional, but additional features and improvements are being added. Expect bugs and/or incomplete implementations. Currently only USD is supported. Multi-currency support is planned for a future release.
 
