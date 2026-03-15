@@ -75,4 +75,10 @@ declare global {
   interface Window {
     api: WindowAPI
   }
+
+  interface TimeResponse {
+    datetime: string
+    unixtime: number
+    timezone: string
+  }
 }

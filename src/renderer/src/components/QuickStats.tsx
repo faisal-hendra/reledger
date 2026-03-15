@@ -2,6 +2,7 @@ import { Card, CardHeader, CardTitle, CardContent } from './ui/card'
 import { TrendingDown, TrendingUp, Receipt } from 'lucide-react'
 import { useCurrency } from '@/components/ui/use-currency'
 import { useEffect } from 'react'
+import dayjs from 'dayjs'
 interface Props {
   transactions: Transaction[]
   thisMonthTotal: MonthlyTotal
@@ -39,7 +40,7 @@ function QuickStats({ transactions, thisMonthTotal, topCategory }: Props): React
             <div>
               <p className="text-sm text-muted-foreground">Avg. Daily Expense</p>
               <p className="text-xl font-semibold">
-                {thisMonthTotal && formatCurrency(thisMonthTotal?.expense / 30)}
+                {thisMonthTotal && formatCurrency(thisMonthTotal?.expense / dayjs().date())}
               </p>
             </div>
           </div>
