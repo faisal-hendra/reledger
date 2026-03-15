@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ChartBarIcon, DatabaseIcon, RefreshCwIcon } from 'lucide-react'
+import { ChartBarIcon, ArrowUpDownIcon, RefreshCwIcon } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import {
@@ -66,8 +66,8 @@ function FilterDashboard({
         <div>
           <div className="flex items-center gap-2 text-muted-foreground pb-2 justify-between">
             <div className="flex gap-2">
-              <DatabaseIcon className="w-4 h-4" />
-              <Label>Database</Label>
+              <ArrowUpDownIcon className="w-4 h-4" />
+              <Label>Account</Label>
             </div>
             <Button
               variant="ghost"

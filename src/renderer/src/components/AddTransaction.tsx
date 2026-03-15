@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useTheme } from '@/components/ui/theme-provider'
 import { Button } from '@/components/ui/button'
+import { useTheme } from './ui/theme-provider'
 import {
   Dialog,
   DialogClose,
@@ -57,7 +57,6 @@ export function AddTransaction({
   idToEdit,
   alert
 }: Props): React.JSX.Element {
-  const { theme } = useTheme()
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState(INITIAL_FORM)
 
@@ -136,23 +135,39 @@ export function AddTransaction({
     }
   }, [idToEdit])
 
+  // Dimming for ttlebar in windows
+  const { theme } = useTheme()
+  const applyDim = (isOpen: boolean): void => {
+    const resolvedTheme =
+      theme === 'system'
+        ? window.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light'
+        : theme
+    window.api.dimTitlebar(isOpen, resolvedTheme)
+  }
+
   return (
     <Dialog
       open={open}
       onOpenChange={(isOpen) => {
         setOpen(isOpen)
-        const resolvedTheme =
-          theme === 'system'
-            ? window.matchMedia('(prefers-color-scheme: dark)').matches
-              ? 'dark'
-              : 'light'
-            : theme
-        window.api.dimTitlebar(isOpen, resolvedTheme)
+        applyDim(isOpen)
       }}
     >
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="max-w-md">
-        <form onSubmit={!editMode ? handleSubmit : handleEdit}>
+        <form
+          onSubmit={(e) => {
+            if (!editMode) {
+              handleSubmit(e)
+            } else {
+              handleEdit(e)
+            }
+            setOpen(false)
+            applyDim(false)
+          }}
+        >
           <DialogHeader>
             <DialogTitle>{!editMode ? 'Add transaction' : 'Edit transaction'}</DialogTitle>
           </DialogHeader>
