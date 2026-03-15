@@ -9,21 +9,8 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import PageHeader from '@/components/PageHeader'
-import { Button } from '@/components/ui/button'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogTitle,
-  AlertDialogTrigger
-} from '@/components/ui/alert-dialog'
-import { Trash2Icon } from 'lucide-react'
 import { toast } from 'sonner'
+import ResetDialog from '@/components/ResetDialog'
 
 const handleReset = async (): Promise<void> => {
   try {
@@ -33,33 +20,6 @@ const handleReset = async (): Promise<void> => {
   } finally {
     toast('Ledger has been reset')
   }
-}
-
-const ResetDialog = (): React.ReactNode => {
-  return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
-        <Button variant="destructive">Reset Ledger</Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent size="sm">
-        <AlertDialogHeader>
-          <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
-            <Trash2Icon />
-          </AlertDialogMedia>
-          <AlertDialogTitle>Reset Ledger?</AlertDialogTitle>
-          <AlertDialogDescription>
-            This will permanently delete all of your transaction histor.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel variant="outline">Cancel</AlertDialogCancel>
-          <AlertDialogAction variant="destructive" onClick={handleReset}>
-            Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
-  )
 }
 
 function Settings(): React.JSX.Element {
@@ -131,7 +91,7 @@ function Settings(): React.JSX.Element {
                   Completely delete transaction history. This action can NOT be undone!
                 </p>
               </div>
-              <ResetDialog />
+              <ResetDialog handleReset={handleReset} />
             </div>
           </section>
         </div>

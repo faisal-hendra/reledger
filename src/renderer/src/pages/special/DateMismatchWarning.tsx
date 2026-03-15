@@ -20,7 +20,7 @@ function DateMismatchWarning({ onReload, isLoading }: Props): React.JSX.Element 
   return (
     <>
       <div className="h-screen">
-        <div className={`dragable h-8 bg-titlebar flex items-center justify-center shrink-0`}></div>
+        <div className={`dragable h-8 flex items-center justify-center shrink-0`}></div>
         <div className="flex h-full justify-center items-center -translate-y-8 overflow-hidden">
           <Empty>
             <EmptyHeader>
