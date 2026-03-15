@@ -1,7 +1,6 @@
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card'
 import { TrendingDown, TrendingUp, Receipt } from 'lucide-react'
 import { useCurrency } from '@/components/ui/use-currency'
-import { useEffect } from 'react'
 import dayjs from 'dayjs'
 interface Props {
   transactions: Transaction[]
@@ -16,10 +15,6 @@ function QuickStats({ transactions, thisMonthTotal, topCategory }: Props): React
   const formatCurrency = (amount: number): string => {
     return `${currency.symbol}${amount?.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? '0.00'}`
   }
-
-  useEffect(() => {
-    console.log(thisMonthTotal)
-  }, [thisMonthTotal])
 
   return (
     <Card>

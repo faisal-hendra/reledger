@@ -208,7 +208,6 @@ function Dashboard({ platform }: Props): React.JSX.Element {
       }
       const data = await window.api.getCategoryPercentage(filters)
       setCategoryBreakdown(data)
-      console.log('Category breakdown', data)
     }
     getCategory()
   }, [activeMonth, activeYear])
@@ -216,10 +215,6 @@ function Dashboard({ platform }: Props): React.JSX.Element {
   const [thisMonthTransactions, setThisMonthTransactions] = useState<Transaction[] | undefined>(
     undefined
   )
-
-  useEffect(() => {
-    console.log('from dash', thisMonthTotal)
-  }, [thisMonthTotal])
 
   useEffect(() => {
     const fetchThisMonthTransactions = async (): Promise<void> => {
