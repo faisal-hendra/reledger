@@ -14,7 +14,7 @@ function createWindow(): void {
     if (process.platform !== 'win32') return
     const isLight = theme === 'light'
     mainWindow.setTitleBarOverlay({
-      color: isDimmed ? (isLight ? '#E5E5E5' : '#0D0D0D') : isLight ? '#FFFFFF' : '#1B1B1B',
+      color: isDimmed ? (isLight ? '#7F7F7F' : '#0D0D0D') : isLight ? '#FFFFFF' : '#1B1B1B',
       symbolColor: isDimmed ? (isLight ? '#999999' : '#555555') : isLight ? '#000000' : '#FFFFFF'
     })
   }
