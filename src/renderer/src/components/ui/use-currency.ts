@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { CurrencyProviderContext, CurrencyProviderState } from './currency-context'
+import { CurrencyProviderContext, CurrencyProviderState } from '@/contexts/currency-context'
 
 export const useCurrency = (): CurrencyProviderState => {
   const context = useContext(CurrencyProviderContext)

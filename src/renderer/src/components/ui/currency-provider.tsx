@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { CURRENCIES } from '@/constants/currencies'
-import { CurrencyProviderContext, CurrencyProviderState } from './currency-context'
+import { CurrencyProviderContext, CurrencyProviderState } from '@/contexts/currency-context'
 
 type CurrencyProviderProps = {
   children: React.ReactNode
