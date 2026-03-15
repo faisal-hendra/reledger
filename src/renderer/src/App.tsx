@@ -24,11 +24,8 @@ function App(): React.JSX.Element {
     try {
       setIsLoading(true)
       const { data } = await axios.get<TimeResponse>(url)
-      console.log(`Time in ${data.timezone}: ${data.datetime.toString().substring(0, 10)}`)
       const realDate = data.datetime.toString().substring(0, 10)
       const systemDate = dayjs().format('YYYY-MM-DD')
-      console.log('System date: ', systemDate)
-      console.log('Is date matched: ', isDateMatched)
       const compareDate = realDate === systemDate
       setIsDateMatched(compareDate)
     } catch (error) {
@@ -40,7 +37,6 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     if (navigator.onLine) {
-      console.log('online')
       void (async () => {
         await fetchTime()
       })()
