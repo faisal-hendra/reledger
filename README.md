@@ -1,9 +1,8 @@
 <div align="center">
   <img width=10% alt="Image" src="https://github.com/user-attachments/assets/70df47ef-b16c-43be-b9ec-246d07089683" />
   <h1>Reledger</h1>
+  <p>A personal ledger and financial journaling desktop application built with Electron, React, and TypeScript.</p>
 </div>
-
-A personal ledger and financial journaling desktop application built with Electron, React, and TypeScript.
 
 <img width="auto" height="auto" alt="Image" src="https://github.com/user-attachments/assets/5868175d-5de2-4821-94b3-caf06b8136b4" />
 
