@@ -1,10 +1,13 @@
-# Reledger
+<div align="center">
+  <img width=10% alt="Image" src="https://github.com/user-attachments/assets/70df47ef-b16c-43be-b9ec-246d07089683" />
+  <h1>Reledger</h1>
+</div>
 
-A personal ledger and financial journaling desktop application built with Electron, React, and TypeScript (Work In Progress).
+A personal ledger and financial journaling desktop application built with Electron, React, and TypeScript.
 
-<img  width="auto"  height="auto"  alt="Image"  src="https://github.com/user-attachments/assets/ea2f2c4a-c0a6-484b-b3b8-4e7c846a44ad"  />
+<img width="auto" height="auto" alt="Image" src="https://github.com/user-attachments/assets/5868175d-5de2-4821-94b3-caf06b8136b4" />
 
-> **Note**: This project is currently in active development. Core features are functional, but additional features and improvements are being added. Expect bugs and/or incomplete implementations. Currently only USD is supported. Multi-currency support is planned for a future release.
+> **Note**: This project is currently in early public testing. Core features are functional, but additional features and improvements are being added. Expect bugs and/or incomplete implementations.
 
 ## Motivation
 
