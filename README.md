@@ -4,7 +4,7 @@
   <p>A personal ledger and financial journaling desktop application built with Electron, React, and TypeScript.</p>
 </div>
 
-<img width="auto" height="auto" alt="Image" src="https://github.com/user-attachments/assets/5868175d-5de2-4821-94b3-caf06b8136b4" />
+<img width="auto" height="auto" alt="Image" src="https://github.com/user-attachments/assets/eb61faba-83bf-44f5-96ee-46143ffa89a5" />
 
 > **Note**: This project is currently in early public testing. Core features are functional, but additional features and improvements are being added. Expect bugs and/or incomplete implementations.
 
@@ -52,8 +52,6 @@ This project started as a way form me to learn React, TypeScript, and Electron. 
 
 - [ ] Spending targets / budget limits (planned for future release)
 
-- [ ] Backend pagination (current frontend-only pagination may slow down with large datasets)
-
 - [ ] CSV export uses a comma as the column separator by default. An option to change this to a semicolon will be added in the future release.
 
 ## Known Issues
@@ -78,7 +76,23 @@ On **Windows 11**, when a date mismatch warning occurs, the application may not 
 
 - **Date Handling**: Day.js
 
-## Getting Started
+## Installation
+Download the latest version for your platform from the [Releases](https://github.com/faisal-hendra/reledger/releases/latest) page.
+
+### Windows
+1. Download the `.exe` installer, make sure you download the one that fits your CPU architecture (AArch64 or x86_64)
+2. Run the installer
+3. Launch the app from the start menu and that's it!
+
+### macOS
+1. Download the `.dmg` file (This release currently supports Apple Silicon Macs only)
+2. Open the DMG and drag the app icon into your **Applications** folder
+3. Launch the app from your Applications folder, as simple as that!
+
+### Linux: 
+No prebuilt package is available yet. If you'd like to run the app on Linux, you can build it from source — see the Development section below for instructions.
+
+## Development
 
 ### Prerequisites
 
