@@ -1,42 +1,83 @@
-export const CATEGORIES = [
-  'Food & Dining',
-  'Shopping',
-  'Transportation',
-  'Bills & Utilities',
-  'Entertainment',
-  'Healthcare',
-  'Education',
-  'Travel',
+export const INCOME_CATEGORIES = [
+  // Active income
   'Salary',
-  'Investment',
+  'Freelance',
+  'Business',
+  // Passive & financial income
+  'Investment Return',
+  'Rental',
+  'Interest',
+  // Transfers & windfalls
+  'Savings',
+  'Loan',
   'Gift',
+  'Cashback',
+  'Refund',
+  'Other'
+] as const
+
+export const EXPENSE_CATEGORIES = [
+  // Living essentials
+  'Food & Dining',
+  'Groceries',
+  'Housing',
+  'Utilities',
+  'Transportation',
+  // Health & personal
+  'Healthcare',
+  'Personal Care',
+  'Fitness',
+  // Lifestyle
+  'Shopping',
+  'Entertainment',
+  'Travel',
+  'Hobbies',
+  // Financial obligations
+  'Investment',
   'Loan',
   'Insurance',
+  'Taxes',
   'Savings',
-  'Donation',
-  'Freelance',
-  'Gift Card',
+  // Social & giving
+  'Gifts',
+  'Education',
+  'Childcare',
   'Other'
 ] as const
 
 export const FILTER_CATEGORIES = [
   'All Categories',
-  'Food & Dining',
-  'Shopping',
-  'Transportation',
-  'Bills & Utilities',
-  'Entertainment',
-  'Healthcare',
-  'Education',
-  'Travel',
+  // Income
   'Salary',
-  'Investment',
-  'Gift',
-  'Loan',
-  'Insurance',
-  'Savings',
-  'Donation',
   'Freelance',
-  'Gift Card',
+  'Business',
+  'Investment Return',
+  'Rental',
+  'Interest',
+  'Cashback',
+  'Refund',
+  // Expenses
+  'Food & Dining',
+  'Groceries',
+  'Housing',
+  'Utilities',
+  'Transportation',
+  'Healthcare',
+  'Personal Care',
+  'Fitness',
+  'Shopping',
+  'Entertainment',
+  'Travel',
+  'Hobbies',
+  'Investment',
+  'Insurance',
+  'Taxes',
+  // Shared
+  'Savings',
+  'Loan',
+  'Gift',
+  'Gifts',
+  'Education',
+  'Childcare',
   'Other'
 ] as const

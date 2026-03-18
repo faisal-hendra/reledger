@@ -24,7 +24,7 @@ import { Calendar } from '@/components/ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 import { ChevronDownIcon, CalendarIcon } from 'lucide-react'
 import { Badge } from './ui/badge'
-import { CATEGORIES } from '@/constants/categories'
+import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '@/constants/categories'
 
 import dayjs from 'dayjs'
 
@@ -59,6 +59,7 @@ export function AddTransaction({
 }: Props): React.JSX.Element {
   const [open, setOpen] = useState(false)
   const [formData, setFormData] = useState(INITIAL_FORM)
+  const [selectedType, setSelectedType] = useState('')
 
   const set = (field: string) => (value: string | React.ChangeEvent<HTMLInputElement>) =>
     setFormData((prev) => ({
@@ -178,7 +179,10 @@ export function AddTransaction({
                 <Label htmlFor="transaction_type">Type</Label>
                 <Select
                   value={formData.transaction_type}
-                  onValueChange={(value) => set('transaction_type')(value)}
+                  onValueChange={(value) => {
+                    set('transaction_type')(value)
+                    setSelectedType(value)
+                  }}
                 >
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select type" />
@@ -237,11 +241,17 @@ export function AddTransaction({
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {CATEGORIES.map((category) => (
-                      <SelectItem key={category} value={category}>
-                        {category}
-                      </SelectItem>
-                    ))}
+                    {selectedType === 'income'
+                      ? INCOME_CATEGORIES.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))
+                      : EXPENSE_CATEGORIES.map((category) => (
+                          <SelectItem key={category} value={category}>
+                            {category}
+                          </SelectItem>
+                        ))}
                   </SelectContent>
                 </Select>
               </Field>
