@@ -16,6 +16,15 @@ declare global {
     year: number | null
     keyword: string | null
     category: string | null
+    limit?: number
+    offset?: number
+    sortColumn?: string
+    sortDirection?: 'asc' | 'desc'
+  }
+
+  interface PaginatedTransactions {
+    transactions: Transaction[]
+    total: number
   }
 
   interface MonthlyTotal {
@@ -55,7 +64,7 @@ declare global {
     platform: NodeJS.Platform
     dimTitlebar: (isDimmed: boolean, theme: 'light' | 'dark') => void
     setTitlebarTheme: (theme: 'light' | 'dark') => void
-    getTransactions: (filters: TransactionFilters) => Promise<Transaction[]>
+    getTransactions: (filters: TransactionFilters) => Promise<PaginatedTransactions>
     addTransaction: (transaction: Transaction) => Promise<void>
     deleteTransaction: (transactionId: string) => Promise<void>
     updateTransaction: (transaction: Transaction) => Promise<void>

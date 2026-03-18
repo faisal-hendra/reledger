@@ -9,7 +9,9 @@ declare global {
       platform: string
       dimTitlebar: (isDimmed: boolean, theme: 'light' | 'dark') => void
       setTitlebarTheme: (theme: 'light' | 'dark') => void
-      getTransactions: (filters: TransactionFilters) => Promise<Transaction[]>
+      getTransactions: (
+        filters: TransactionFilters
+      ) => Promise<{ transactions: Transaction[]; total: number }>
       addTransaction: (transaction: Transaction) => Promise<void>
       deleteTransaction: (transactionId: string) => Promise<void>
       updateTransaction: (transaction: Transaction) => Promise<void>

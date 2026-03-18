@@ -18,6 +18,7 @@ import {
   EmptyTitle
 } from '@/components/ui/empty'
 import { Spinner } from '@/components/ui/spinner'
+import { SortingState } from '@tanstack/react-table'
 
 interface Props {
   platform: string
@@ -30,17 +31,32 @@ const INITIAL_FILTER = {
   category: null
 }
 
+const DEFAULT_PAGE_SIZE = 15
+
 function Transactions({ platform }: Props): React.JSX.Element {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [filters, setFilters] = useState<TransactionFilters>(INITIAL_FILTER)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [isFiltering, setIsfiltering] = useState<boolean>(false)
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: DEFAULT_PAGE_SIZE })
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'date', desc: true }])
+  const [totalCount, setTotalCount] = useState(0)
 
   const loadTransactions = async (): Promise<void> => {
     try {
       !isFiltering && setIsLoading(true)
-      const data = await window.api.getTransactions(filters)
-      setTransactions(data)
+      const offset = pagination.pageIndex * pagination.pageSize
+      const sortColumn = sorting[0]?.id
+      const sortDirection = sorting[0]?.desc ? 'desc' : 'asc'
+      const data = await window.api.getTransactions({
+        ...filters,
+        limit: pagination.pageSize,
+        offset,
+        sortColumn,
+        sortDirection
+      })
+      setTransactions(data.transactions)
+      setTotalCount(data.total)
     } catch (error) {
       console.error('Failed to load transactions:', error)
     } finally {
@@ -51,8 +67,14 @@ function Transactions({ platform }: Props): React.JSX.Element {
   useEffect(() => {
     const initializeTransactions = async (): Promise<void> => {
       try {
-        const data = await window.api.getTransactions(filters)
-        setTransactions(data)
+        const data = await window.api.getTransactions({
+          ...filters,
+          limit: pagination.pageSize,
+          offset: 0
+        })
+        setTransactions(data.transactions)
+        setTotalCount(data.total)
+        setPagination((prev) => ({ ...prev, pageIndex: 0 }))
       } catch (error) {
         console.error('Failed to initialize transactions:', error)
       }
@@ -66,16 +88,30 @@ function Transactions({ platform }: Props): React.JSX.Element {
   }
 
   useEffect(() => {
-    const handleFilterChange = async (): Promise<void> => {
+    const offset = pagination.pageIndex * pagination.pageSize
+    const sortColumn = sorting[0]?.id
+    const sortDirection = sorting[0]?.desc ? 'desc' : 'asc'
+    const fetchData = async (): Promise<void> => {
       try {
-        const data = await window.api.getTransactions(filters)
-        setTransactions(data)
+        const data = await window.api.getTransactions({
+          ...filters,
+          limit: pagination.pageSize,
+          offset,
+          sortColumn,
+          sortDirection
+        })
+        setTransactions(data.transactions)
+        setTotalCount(data.total)
       } catch (error) {
         console.error('Failed to load transactions:', error)
       }
     }
+    fetchData()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pagination, sorting])
 
-    handleFilterChange()
+  useEffect(() => {
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }))
   }, [filters])
 
   const handleCSVExport = (): void => {
@@ -114,7 +150,19 @@ function Transactions({ platform }: Props): React.JSX.Element {
     const columns = useColumns(loadTransactions, displayToast)
     return (
       <div>
-        {transactions.length > 0 ? <DataTable columns={columns} data={transactions} /> : <NoData />}
+        {transactions.length > 0 || totalCount > 0 ? (
+          <DataTable
+            columns={columns}
+            data={transactions}
+            pagination={pagination}
+            onPaginationChange={setPagination}
+            totalCount={totalCount}
+            sorting={sorting}
+            onSortingChange={setSorting}
+          />
+        ) : (
+          <NoData />
+        )}
       </div>
     )
   }

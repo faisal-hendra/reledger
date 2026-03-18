@@ -85,34 +85,70 @@ class AppDatabase {
     }
   }
 
-  getTransactions(filters: TransactionFilters): Transaction[] {
+  getTransactions(filters: TransactionFilters): { transactions: Transaction[]; total: number } {
     try {
       let query = 'SELECT * FROM transactions WHERE 1=1'
+      let countQuery = 'SELECT COUNT(*) as count FROM transactions WHERE 1=1'
       const params: (string | number)[] = []
+      const countParams: (string | number)[] = []
 
       if (filters.month) {
-        query += " AND strftime('%m', date) = ?"
-        params.push(filters.month.toString().padStart(2, '0'))
+        const monthCondition = " AND strftime('%m', date) = ?"
+        query += monthCondition
+        countQuery += monthCondition
+        const monthVal = filters.month.toString().padStart(2, '0')
+        params.push(monthVal)
+        countParams.push(monthVal)
       }
       if (filters.year) {
-        query += " AND strftime('%Y', date) = ?"
-        params.push(filters.year.toString())
+        const yearCondition = " AND strftime('%Y', date) = ?"
+        query += yearCondition
+        countQuery += yearCondition
+        const yearVal = filters.year.toString()
+        params.push(yearVal)
+        countParams.push(yearVal)
       }
       if (filters.keyword) {
-        query += ' AND name LIKE ?'
-        params.push(`%${filters.keyword}%`)
-        query += ' OR description LIKE ?'
-        params.push(`%${filters.keyword}%`)
+        const keywordCondition = ' AND (name LIKE ? OR description LIKE ?)'
+        query += keywordCondition
+        countQuery += keywordCondition
+        const keywordVal = `%${filters.keyword}%`
+        params.push(keywordVal, keywordVal)
+        countParams.push(keywordVal, keywordVal)
       }
       if (filters.category) {
-        query += ' AND category = ?'
+        const categoryCondition = ' AND category = ?'
+        query += categoryCondition
+        countQuery += categoryCondition
         params.push(filters.category)
+        countParams.push(filters.category)
       }
 
-      query += ' ORDER BY date(date) DESC'
+      const sortColumn = filters.sortColumn || 'date'
+      const sortDirection = filters.sortDirection === 'asc' ? 'ASC' : 'DESC'
+      if (sortColumn === 'date') {
+        query += ` ORDER BY date(${sortColumn}) ${sortDirection}`
+      } else {
+        query += ` ORDER BY ${sortColumn} ${sortDirection}`
+      }
+
+      if (filters.limit !== undefined) {
+        query += ` LIMIT ${filters.limit}`
+        if (filters.offset !== undefined) {
+          query += ` OFFSET ${filters.offset}`
+        }
+      }
 
       const stmt = this.db.prepare(query)
-      return stmt.all(...params) as Transaction[]
+      const transactions = stmt.all(...params) as Transaction[]
+
+      const countStmt = this.db.prepare(countQuery)
+      const countResult = countStmt.get(...countParams) as { count: number }
+
+      return {
+        transactions,
+        total: countResult.count
+      }
     } catch (error) {
       console.error('Failed to get all transactions:', error)
 

@@ -222,10 +222,12 @@ function Dashboard({ platform }: Props): React.JSX.Element {
         month: activeMonth,
         year: activeYear,
         keyword: null,
-        category: null
+        category: null,
+        limit: 1000,
+        offset: 0
       }
       const data = await window.api.getTransactions(filters)
-      setThisMonthTransactions(data)
+      setThisMonthTransactions(data.transactions)
     }
     fetchThisMonthTransactions()
   }, [activeMonth, activeYear])
@@ -272,13 +274,12 @@ function Dashboard({ platform }: Props): React.JSX.Element {
             </Card>
           ))}
         </div>
-        <div className="flex grid grid-cols-1 lg:grid-cols-3 gap-4 pt-4 overflow-visible">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-4 overflow-visible">
           <div className="lg:col-span-2">
             <TrendChart
               data={fullMonthlyTotal}
               displayIncomeChart={displayIncomeChart}
               displayExpenseChart={displayExpenseChart}
-              year={activeYear}
             />
           </div>
           <div className="lg:col-span-1">
