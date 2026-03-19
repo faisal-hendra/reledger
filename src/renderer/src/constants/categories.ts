@@ -46,7 +46,7 @@ export const EXPENSE_CATEGORIES = [
 ] as const
 
 export const FILTER_CATEGORIES = [
-  'All Categories',
+  'All',
   // Income
   'Salary',
   'Freelance',

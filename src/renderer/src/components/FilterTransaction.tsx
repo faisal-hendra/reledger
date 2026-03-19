@@ -35,7 +35,7 @@ function FilterTransaction({
   const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
-  const [selectedCategory, setSelectedCategory] = useState<string | null>('')
+  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
   const [availableYears, setAvailableYears] = useState<{ value: number | null; label: string }[]>([
     { value: null, label: 'All Years' }
   ])
@@ -75,17 +75,6 @@ function FilterTransaction({
     })
   }
 
-  const handleCategoryChange = (value: string | null): void => {
-    const categoryValue = value === 'All Categories' ? null : value
-    setSelectedCategory(categoryValue || '')
-    onFilterChange?.({
-      month: selectedMonth,
-      year: selectedYear,
-      keyword: searchTerm || null,
-      transaction_type: selectedType || null,
-      category: categoryValue
-    })
-  }
   const handleTypeChange = (val: 'income' | 'expense' | 'all'): void => {
     const newType = val === 'all' ? null : val
     setSelectedType(newType)
@@ -96,6 +85,18 @@ function FilterTransaction({
       keyword: searchTerm || null,
       transaction_type: newType,
       category: selectedCategory || null
+    })
+  }
+
+  const handleCategoryChange = (value: string | null): void => {
+    const categoryValue = value === 'All' ? null : value
+    setSelectedCategory(categoryValue || '')
+    onFilterChange?.({
+      month: selectedMonth,
+      year: selectedYear,
+      keyword: searchTerm || null,
+      transaction_type: selectedType || null,
+      category: categoryValue
     })
   }
 
@@ -246,10 +247,7 @@ function FilterTransaction({
         <div className="pt-4">
           <Label>Category</Label>
           <div className="pt-2">
-            <Select
-              value={selectedCategory || 'All Categories'}
-              onValueChange={handleCategoryChange}
-            >
+            <Select value={selectedCategory || 'All'} onValueChange={handleCategoryChange}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
