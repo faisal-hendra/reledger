@@ -57,7 +57,7 @@ function BreakdownChart({ data, transactionType }: Props): React.JSX.Element {
     <Card className="flex flex-col w-full h-full shadow-none overflow-hidden">
       <CardHeader className="pb-2 shrink-0">
         <CardTitle className="text-lg font-semibold">
-          {transactionType === 'expense' ? 'Expense Breakdown' : 'Income Breakdown'}
+          {transactionType === 'expense' ? 'Expenses Breakdown' : 'Income Breakdown'}
         </CardTitle>
       </CardHeader>
       <CardContent className="flex-1 flex flex-col overflow-auto">
