@@ -1,9 +1,9 @@
 {
   "name": "Relegder",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "A simple personal ledger app built with Electron and TypeScript.",
   "main": "./out/main/index.js",
-  "author": "faisalhendra.com",
+  "author": "Faisal Hendra",
   "scripts": {
     "format": "prettier --write .",
     "lint": "eslint --cache .",
