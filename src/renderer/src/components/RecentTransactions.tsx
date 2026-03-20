@@ -28,7 +28,7 @@ function RecentTransactions({ recentTransactions }: Props): React.JSX.Element {
           <>
             <div className="flex px-5 py-4 border-b border-border justify-between">
               <h3 className="font-semibold ">Recent Transactions</h3>
-              <h4 className="opacity-50">{`${dayjs().format('dddd, DD MMMM')}`}</h4>
+              <h4 className="opacity-50">{displayTransactionDate(recentTransactions[0]?.date)}</h4>
             </div>
             <div className="divide-y divide-border">
               {recentTransactions.map((tx) => (
