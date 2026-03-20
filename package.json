@@ -24,7 +24,7 @@
     "@electron-toolkit/preload": "^3.0.2",
     "@electron-toolkit/utils": "^4.0.0",
     "@radix-ui/react-popover": "^1.1.15",
-    "@tailwindcss/vite": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.2",
     "@tanstack/react-table": "^8.21.3",
     "axios": "^1.13.6",
     "better-sqlite3": "^12.6.2",
