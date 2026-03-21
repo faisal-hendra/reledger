@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardContent } from './ui/card'
-import { TrendingDown, TrendingUp, Receipt } from 'lucide-react'
+import { TrendingDown, Receipt, Trophy } from 'lucide-react'
 import { useCurrency } from '@/components/ui/use-currency'
 import dayjs from 'dayjs'
 import { useMemo } from 'react'
@@ -7,10 +7,10 @@ import { useMemo } from 'react'
 interface Props {
   transactions: Transaction[]
   thisMonthTotal: MonthlyTotal
-  topCategory?: CategoryPercentage
+  topExpense?: Transaction
 }
 
-function QuickStats({ transactions, thisMonthTotal, topCategory }: Props): React.JSX.Element {
+function QuickStats({ transactions, thisMonthTotal, topExpense }: Props): React.JSX.Element {
   const { currency } = useCurrency()
 
   const stats = useMemo(() => {
@@ -29,9 +29,9 @@ function QuickStats({ transactions, thisMonthTotal, topCategory }: Props): React
       avgDailyExpense: thisMonthTotal
         ? formatCurrency(thisMonthTotal.expense / dayjs().date())
         : '0.00',
-      topCategory: topCategory?.category || 'N/A'
+      topAmount: topExpense ? formatCurrency(topExpense.amount) : 'N/A'
     }
-  }, [transactions, thisMonthTotal, topCategory, currency.symbol])
+  }, [transactions, thisMonthTotal, topExpense, currency.symbol])
 
   return (
     <Card className="shadow-none">
@@ -55,10 +55,19 @@ function QuickStats({ transactions, thisMonthTotal, topCategory }: Props): React
             </div>
           </div>
           <div className="flex items-center gap-3 p-3 bg-muted/50 rounded-lg">
-            <TrendingUp className="h-8 w-8 text-blue-400" />
+            <Trophy className="h-8 w-8 text-red-400" />
             <div>
-              <p className="text-sm text-muted-foreground">Top Category</p>
-              <p className="text-xl font-semibold">{stats.topCategory}</p>
+              <p className="text-sm text-muted-foreground">Top Expense</p>
+              <div className="flex items-center gap-2">
+                <p className="text-xl font-semibold">
+                  {topExpense?.name}
+                  {topExpense?.name && (
+                    <span className="text-muted-foreground text-sm">
+                      {` `}({stats.topAmount})
+                    </span>
+                  )}
+                </p>
+              </div>
             </div>
           </div>
         </div>

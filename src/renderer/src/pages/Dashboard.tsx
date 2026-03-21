@@ -10,6 +10,7 @@ import { Button } from '@/components/ui/button'
 import BreakdownChart from '@/components/BreakdownChart'
 import QuickStats from '@/components/QuickStats'
 import { useCurrency } from '@/components/ui/use-currency'
+import { BigNumber } from '@/constants/bignumber'
 
 /**
  * Props interface for the Dashboard page
@@ -47,6 +48,8 @@ function Dashboard({ platform }: Props): React.JSX.Element {
   const [thisMonthTransactions, setThisMonthTransactions] = useState<Transaction[] | undefined>(
     undefined
   )
+
+  const [topExpense, setTopExpense] = useState<Transaction>()
 
   const loadFullMonthlyTotal = useCallback(async (): Promise<void> => {
     try {
@@ -116,7 +119,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
         keyword: null,
         transaction_type: null,
         category: null,
-        limit: 1000,
+        limit: BigNumber(),
         offset: 0
       }
       const data = await window.api.getTransactions(filters)
@@ -125,6 +128,19 @@ function Dashboard({ platform }: Props): React.JSX.Element {
       console.error('Failed to fetch this month transactions:', error)
     }
   }, [activeMonth, activeYear])
+
+  const getTopExpense = useCallback(() => {
+    if (thisMonthTransactions) {
+      const amountArray = thisMonthTransactions?.map((t) => t.amount)
+      const maxValue = Math.max(...amountArray)
+      const fetchTopExpense = thisMonthTransactions.find((t) => t.amount === maxValue)
+      setTopExpense(fetchTopExpense)
+    }
+  }, [thisMonthTransactions])
+
+  useEffect(() => {
+    getTopExpense()
+  }, [thisMonthTransactions])
 
   useEffect(() => {
     loadFullMonthlyTotal()
@@ -321,7 +337,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
             <QuickStats
               transactions={thisMonthTransactions}
               thisMonthTotal={thisMonthTotal}
-              topCategory={categoryBreakdown?.[0]}
+              topExpense={topExpense}
             />
           )}
         </div>
