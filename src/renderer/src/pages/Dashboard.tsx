@@ -131,7 +131,8 @@ function Dashboard({ platform }: Props): React.JSX.Element {
 
   const getTopExpense = useCallback(() => {
     if (thisMonthTransactions) {
-      const amountArray = thisMonthTransactions?.map((t) => t.amount)
+      const onlyExpense = thisMonthTransactions.filter((t) => t.transaction_type === 'expense')
+      const amountArray = onlyExpense?.map((t) => t.amount)
       const maxValue = Math.max(...amountArray)
       const fetchTopExpense = thisMonthTransactions.find((t) => t.amount === maxValue)
       setTopExpense(fetchTopExpense)

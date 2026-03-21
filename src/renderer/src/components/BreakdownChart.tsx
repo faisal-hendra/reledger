@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react'
-import { Pie, PieChart, Cell } from 'recharts'
+import { Pie, PieChart, Cell, Sector } from 'recharts'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
 import { chartConfig } from '@/constants/piechart-config'
+import { type PieSectorDataItem } from 'recharts/types/polar/Pie'
 import { Label } from './ui/label'
 
 interface Props {
@@ -65,16 +66,28 @@ function BreakdownChart({ data, transactionType }: Props): React.JSX.Element {
                 <PieChart>
                   <ChartTooltip cursor={true} content={<ChartTooltipContent />} />
                   <Pie
+                    className="-translate-y-1.5"
                     data={formattedData}
                     dataKey="percentage"
                     nameKey="slug"
                     cx="50%"
                     cy="50%"
                     outerRadius="70%"
-                    innerRadius="45%" // creates donut chart
-                    paddingAngle={2} // adds spacing between segments
+                    innerRadius="0%" // creates donut chart
+                    paddingAngle={0} // adds spacing between segments
                     label={({ percentage }) => (percentage > 5 ? `${percentage.toFixed(2)}%` : '')} // only show labels for segments > 5% to avoid overlap
                     labelLine={false}
+                    activeIndex={0}
+                    activeShape={({ outerRadius = 0, ...props }: PieSectorDataItem) => (
+                      <g>
+                        <Sector {...props} outerRadius={outerRadius + 0} />
+                        <Sector
+                          {...props}
+                          outerRadius={outerRadius + 8}
+                          innerRadius={outerRadius + 4}
+                        />
+                      </g>
+                    )}
                   >
                     {formattedData.map((entry: FormattedDataEntry, index: number) => (
                       <Cell key={`cell-${index}`} fill={entry.fill} stroke="none" />
