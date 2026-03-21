@@ -47,8 +47,8 @@ export default function AppSidebar({ children }: SidebarProps): React.JSX.Elemen
                       // - Inactive: gray text (#404040) with dark hover background (#2a2a2a)
                       className={`flex items-center gap-3 px-3 py-2.5 rounded-sm transition-all duration-150 ${
                         isActive
-                          ? 'bg-[#414141] text-white'
-                          : 'text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
+                          ? 'bg-sidebar-active text-white'
+                          : 'text-gray-400 hover:text-white hover:bg-sidebar-hover'
                       }`}
                     >
                       {/* Dynamic icon based on active state */}
@@ -94,10 +94,10 @@ export default function AppSidebar({ children }: SidebarProps): React.JSX.Elemen
                       key={item.path}
                       to={item.path}
                       // Same styling pattern as main nav, but with py-3 padding
-                      className={`flex items-center gap-3 px-3 py-3 rounded-sm transition-all duration-150 ${
+                      className={`flex items-center gap-3 px-3 py-2.5 rounded-sm transition-all duration-150 ${
                         isActive
-                          ? 'bg-[#414141] text-white'
-                          : 'text-gray-400 hover:text-white hover:bg-[#2a2a2a]'
+                          ? 'bg-sidebar-active text-white'
+                          : 'text-gray-400 hover:text-white hover:bg-sidebar-hover'
                       }`}
                     >
                       {/* Dynamic icon based on active state */}

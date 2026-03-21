@@ -58,6 +58,8 @@
   --color-main-content: var(--main-content);
   --color-highlight: var(--highlight);
   --color-titlebar: var(--titlebar);
+  --color-sidebar-active: var(--sidebar-active);
+  --color-sidebar-hover: var(--sidebar-hover);
 }
 
 :root {
@@ -97,6 +99,8 @@
   --main-content: #ffffff;
   --highlight: #e1e1e1;
   --titlebar: #ffffff;
+  --sidebar-active: #171717;
+  --sidebar-hover: #a0a0a0;
 }
 
 .dark {
@@ -134,6 +138,8 @@
   --main-content: #191919;
   --highlight: #2a2a2a;
   --titlebar: #1b1b1b;
+  --sidebar-active: #414141;
+  --sidebar-hover: #2a2a2a;
 }
 
 @layer base {
