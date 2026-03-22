@@ -5,7 +5,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
 import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Button } from './ui/button'
-import { FILTER_CATEGORIES as CATEGORIES } from '@/constants/categories'
+import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '@/constants/categories'
 import { TRANSACTION_MONTHS as MONTHS } from '@/constants/months'
 import { TRANSACTION_TYPES } from '@/constants/transaction-types'
 import { Badge } from './ui/badge'
@@ -37,6 +37,23 @@ function FilterTransaction({
   const [availableYears, setAvailableYears] = useState<{ value: number | null; label: string }[]>([
     { value: null, label: 'All Years' }
   ])
+
+  // Change list of category option according to transaction type
+  const [listCategories, setListCategories] = useState<string[]>([])
+  useEffect(() => {
+    const determineCategoryList = (): void => {
+      if (selectedType === null) {
+        const incomeNoOther = INCOME_CATEGORIES.filter((val) => val !== 'Other')
+        setListCategories(['All', ...incomeNoOther, ...EXPENSE_CATEGORIES])
+      } else if (selectedType === 'expense') {
+        setListCategories(['All', ...EXPENSE_CATEGORIES])
+      } else {
+        setListCategories(['All', ...INCOME_CATEGORIES])
+      }
+      setSelectedCategory('All')
+    }
+    determineCategoryList()
+  }, [selectedType])
 
   const handleMonthChange = (value: string): void => {
     const monthValue = value === 'null' ? null : Number(value)
@@ -247,7 +264,7 @@ function FilterTransaction({
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
               <SelectContent>
-                {CATEGORIES.map((category) => (
+                {listCategories.map((category) => (
                   <SelectItem key={category} value={category}>
                     {category}
                   </SelectItem>

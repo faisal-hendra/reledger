@@ -64,6 +64,19 @@ export function AddTransaction({
       [field]: typeof value === 'string' ? value : value.target.value
     }))
 
+  // Change list of category option according to transaction type
+  const [listCategories, setListCategories] = useState<string[]>([])
+  useEffect(() => {
+    const determineCategoryList = (): void => {
+      if (selectedType === 'income') {
+        setListCategories([...INCOME_CATEGORIES])
+      } else {
+        setListCategories([...EXPENSE_CATEGORIES])
+      }
+    }
+    determineCategoryList()
+  }, [selectedType])
+
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
     e.preventDefault()
     try {
@@ -244,17 +257,11 @@ export function AddTransaction({
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
-                    {selectedType === 'income'
-                      ? INCOME_CATEGORIES.map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
-                        ))
-                      : EXPENSE_CATEGORIES.map((category) => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
-                        ))}
+                    {listCategories.map((category) => (
+                      <SelectItem key={category} value={category}>
+                        {category}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </Field>

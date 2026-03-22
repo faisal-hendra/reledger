@@ -1,7 +1,7 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ChartBarIcon, ArrowUpDownIcon, RefreshCwIcon, PieChartIcon } from 'lucide-react'
+import { ChartBarIcon, ArrowUpDownIcon, PieChartIcon, CalendarSyncIcon } from 'lucide-react'
 import { Switch } from '@/components/ui/switch'
 import { Label } from '@/components/ui/label'
 import {
@@ -83,7 +83,7 @@ function FilterDashboard({
                 handleReset()
               }}
             >
-              <RefreshCwIcon className="w-4 h-4" />
+              <CalendarSyncIcon className="w-4 h-4" />
             </Button>
           </div>
           <div className="flex items-center gap-2 pt-2">
