@@ -25,10 +25,10 @@ function BreakdownChart({ data, transactionType }: Props): React.JSX.Element {
     return data.map(
       (d): FormattedDataEntry => ({
         category: d.category,
-        slug: d.category.toLowerCase().replace(/[^A-Z0-9]+/gi, '_'), // normalize category name for CSS variable keys
+        slug: d.category.toLowerCase().replace(/[^A-Z0-9]+/gi, '_'),
         count: d.category_count,
         percentage: parseFloat(String(d.percentage)),
-        fill: `var(--color-${d.category.toLowerCase().replace(/[^A-Z0-9]+/gi, '_')})` // maps category to dynamic theme colors
+        fill: `var(--color-${d.category.toLowerCase().replace(/[^A-Z0-9]+/gi, '_')})`
       })
     )
   }, [data])
@@ -72,10 +72,10 @@ function BreakdownChart({ data, transactionType }: Props): React.JSX.Element {
                     nameKey="slug"
                     cx="50%"
                     cy="50%"
-                    outerRadius="70%"
-                    innerRadius="0%" // creates donut chart
-                    paddingAngle={0} // adds spacing between segments
-                    label={({ percentage }) => (percentage > 5 ? `${percentage.toFixed(2)}%` : '')} // only show labels for segments > 5% to avoid overlap
+                    outerRadius="80%"
+                    innerRadius="0%"
+                    paddingAngle={0}
+                    label={({ percentage }) => (percentage > 5 ? `${percentage.toFixed(2)}%` : '')}
                     labelLine={false}
                     activeIndex={0}
                     activeShape={({ outerRadius = 0, ...props }: PieSectorDataItem) => (
