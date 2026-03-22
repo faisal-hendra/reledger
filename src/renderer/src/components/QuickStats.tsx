@@ -60,7 +60,7 @@ function QuickStats({ transactions, thisMonthTotal, topExpense }: Props): React.
               <p className="text-sm text-muted-foreground">Top Expense</p>
               <div className="flex items-center gap-2">
                 <p className="text-xl font-semibold">
-                  {topExpense?.name}
+                  {topExpense?.name ?? 'N/A'}
                   {topExpense?.name && (
                     <span className="text-muted-foreground text-sm">
                       {` `}({stats.topAmount})
