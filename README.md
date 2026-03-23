@@ -89,7 +89,7 @@ On **Windows 11**, when a date mismatch warning occurs, the application may not 
 | **Electron** | **Vite** | **React 19** | **TypeScript** |
 | Desktop runtime | Lightning-fast dev server | UI framework | Type-safe JS |
 
-| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-plain.svg" width="48"/> | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="48"/> | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="48"/> |
+| <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg" width="48"/> | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" width="48"/> | <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" width="48"/> |
 |:---:|:---:|:---:|
 | **Tailwind CSS** | **SQLite** | **Node.js** |
 | Utility-first styling | Local database | Runtime |
