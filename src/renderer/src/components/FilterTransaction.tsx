@@ -33,13 +33,14 @@ function FilterTransaction({
   const [selectedYear, setSelectedYear] = useState<number | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedType, setSelectedType] = useState<'income' | 'expense' | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('All')
   const [availableYears, setAvailableYears] = useState<{ value: number | null; label: string }[]>([
     { value: null, label: 'All Years' }
   ])
 
   // Change list of category option according to transaction type
-  const [listCategories, setListCategories] = useState<string[]>([])
+  const [listCategories, setListCategories] = useState<string[]>(['All'])
+
   useEffect(() => {
     const determineCategoryList = (): void => {
       if (selectedType === null) {
@@ -50,7 +51,6 @@ function FilterTransaction({
       } else {
         setListCategories(['All', ...INCOME_CATEGORIES])
       }
-      setSelectedCategory('All')
     }
     determineCategoryList()
   }, [selectedType])
@@ -63,7 +63,7 @@ function FilterTransaction({
       year: selectedYear,
       keyword: searchTerm || null,
       transaction_type: selectedType || null,
-      category: selectedCategory || null
+      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory
     })
   }
 
@@ -74,7 +74,7 @@ function FilterTransaction({
       year: value,
       keyword: searchTerm || null,
       transaction_type: selectedType || null,
-      category: selectedCategory || null
+      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory
     })
   }
 
@@ -85,31 +85,48 @@ function FilterTransaction({
       year: selectedYear,
       keyword: value || null,
       transaction_type: selectedType || null,
-      category: selectedCategory || null
+      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory
     })
   }
 
   const handleTypeChange = (val: 'income' | 'expense' | 'all'): void => {
     const newType = val === 'all' ? null : val
     setSelectedType(newType)
+
+    // Reset category if it's not applicable to the new type
+    let newCategory = selectedCategory
+    if (selectedCategory && selectedCategory !== 'All') {
+      const isValidForNewType =
+        newType === null ||
+        (newType === 'expense' &&
+          EXPENSE_CATEGORIES.includes(selectedCategory as (typeof EXPENSE_CATEGORIES)[number])) ||
+        (newType === 'income' &&
+          INCOME_CATEGORIES.includes(selectedCategory as (typeof INCOME_CATEGORIES)[number]))
+
+      if (!isValidForNewType) {
+        newCategory = 'All'
+        setSelectedCategory('All')
+      }
+    }
+
     onFilterChange?.({
       month: selectedMonth,
       year: selectedYear,
       keyword: searchTerm || null,
       transaction_type: newType,
-      category: selectedCategory || null
+      category: newCategory === 'All' || newCategory === null ? null : newCategory
     })
   }
 
-  const handleCategoryChange = (value: string | null): void => {
+  const handleCategoryChange = (value: string): void => {
     const categoryValue = value === 'All' ? null : value
-    setSelectedCategory(categoryValue || '')
+    setSelectedCategory(categoryValue === 'All' || categoryValue === null ? 'All' : categoryValue)
     onFilterChange?.({
       month: selectedMonth,
       year: selectedYear,
       keyword: searchTerm || null,
       transaction_type: selectedType || null,
-      category: categoryValue
+      category: categoryValue === 'All' || categoryValue === null ? null : categoryValue
     })
   }
 
@@ -130,13 +147,21 @@ function FilterTransaction({
   useEffect(() => {
     onTransactionFiltered?.()
     setIsFiltering(true)
-  }, [selectedMonth, selectedYear, searchTerm, selectedType])
+  }, [
+    selectedMonth,
+    selectedYear,
+    searchTerm,
+    selectedType,
+    selectedCategory,
+    onTransactionFiltered,
+    setIsFiltering
+  ])
 
   const handleReset = (): void => {
     setSelectedMonth(null)
     setSelectedYear(null)
     setSearchTerm('')
-    setSelectedCategory(null)
+    setSelectedCategory('All')
     setSelectedType(null)
     onFilterChange?.({
       month: null,
@@ -259,7 +284,12 @@ function FilterTransaction({
         <div className="pt-4">
           <Label>Category</Label>
           <div className="pt-2">
-            <Select value={selectedCategory || 'All'} onValueChange={handleCategoryChange}>
+            <Select
+              value={
+                selectedCategory === 'All' || selectedCategory === null ? 'All' : selectedCategory
+              }
+              onValueChange={handleCategoryChange}
+            >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
