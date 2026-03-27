@@ -17,7 +17,7 @@
   </p>
 </div>
 
-<img width="auto" height="auto" alt="Image" src="https://github.com/user-attachments/assets/e402fd40-281b-41a1-a101-37c3ec508857" />
+<img width="auto" height="auto"  alt="Screenshot 2026-03-27 at 08 35 22" src="https://github.com/user-attachments/assets/2d1c65e1-6872-4971-aa61-f2d66ffaf0d2" />
 
 > [!NOTE]
 > This project is currently in early public testing. Core features are functional, but additional features and improvements are being added. Expect bugs and/or incomplete implementations.
