@@ -8,10 +8,10 @@ import { ButtonGroup } from '@/components/ui/button-group'
 import { AddTransaction } from '@/components/AddTransaction'
 import { toast } from 'sonner'
 import FilterTransaction from '@/components/FilterTransaction'
-import { saveAs } from 'file-saver'
 import { SortingState } from '@tanstack/react-table'
 import TableLoading from '@/components/TableLoading'
 import TableEmpty from '@/components/TableEmpty'
+import { handleCSVExport } from '@/modules/csv-export'
 
 interface Props {
   platform: string
@@ -108,21 +108,6 @@ function Transactions({ platform }: Props): React.JSX.Element {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }))
   }, [filters])
 
-  const handleCSVExport = useCallback((): void => {
-    const csvContent = [
-      ['Date', 'Name', 'Amount', 'Category', 'Type'],
-      ...transactions.map((t) => [t.date, t.name, t.amount, t.category, t.transaction_type])
-    ]
-      .map((row) => row.join(','))
-      .join('\n')
-    handleCSVDownload(csvContent)
-  }, [transactions])
-
-  const handleCSVDownload = useCallback((csv: string): void => {
-    const file = new File([csv], 'transactions.csv', { type: 'text/csv' })
-    saveAs(file)
-  }, [])
-
   const columns = useColumns(loadTransactions, displayToast)
 
   return (
@@ -147,7 +132,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
             <Button
               variant="outline"
               onClick={() => {
-                handleCSVExport()
+                handleCSVExport(transactions)
               }}
             >
               <FileSpreadsheetIcon />
