@@ -49,15 +49,33 @@ function Settings(): React.JSX.Element {
                     if (selected) setCurrency(selected)
                   }}
                 >
-                  <SelectTrigger className="min-w-30 max-w-full">
+                  <SelectTrigger className="min-w-30 max-w-full min-h-12">
                     <SelectValue placeholder="Select currency" />
                   </SelectTrigger>
-                  <SelectContent className="w-75">
-                    {CURRENCIES.map((c) => (
-                      <SelectItem key={c.code} value={c.code}>
-                        {c.symbol} {c.code} - {c.name}
-                      </SelectItem>
-                    ))}
+                  <SelectContent>
+                    <div className="">
+                      {CURRENCIES.map((c) => (
+                        <SelectItem
+                          key={c.code}
+                          value={c.code}
+                          className="group px-3 py-2.5 cursor-pointer rounded-none focus:bg-accent/60 data-[state=checked]:bg-primary/8"
+                        >
+                          <div className="flex items-center gap-3 w-full">
+                            <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-muted flex items-center justify-center text-sm font-bold text-foreground group-focus:bg-primary/10">
+                              {c.symbol}
+                            </span>
+                            <div className="flex flex-col min-w-0">
+                              <span className="text-sm font-semibold leading-none text-foreground">
+                                {c.code}
+                              </span>
+                              <span className="text-xs text-muted-foreground truncate mt-0.5">
+                                {c.name}
+                              </span>
+                            </div>
+                          </div>
+                        </SelectItem>
+                      ))}
+                    </div>
                   </SelectContent>
                 </Select>
               </div>
