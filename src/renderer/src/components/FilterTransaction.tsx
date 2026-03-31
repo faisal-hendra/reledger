@@ -6,7 +6,7 @@ import { Label } from './ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Button } from './ui/button'
 import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '@/constants/categories'
-import { TRANSACTION_MONTHS as MONTHS } from '@/constants/months'
+import { MONTHS } from '@/constants/months'
 import { TRANSACTION_TYPES } from '@/constants/transaction-types'
 import { Badge } from './ui/badge'
 
@@ -214,11 +214,11 @@ function FilterTransaction({
                 <SelectValue placeholder="Select month" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem key="null" value="null">
+                  All Months
+                </SelectItem>
                 {MONTHS.map((month) => (
-                  <SelectItem
-                    key={month.value?.toString() || 'null'}
-                    value={month.value?.toString() || 'null'}
-                  >
+                  <SelectItem key={month.value?.toString()} value={month.value?.toString()}>
                     {month.label}
                   </SelectItem>
                 ))}

@@ -27,7 +27,7 @@ function App(): React.JSX.Element {
     try {
       setIsLoading(true)
       const response = await fetch(url)
-      const data = await response.json()
+      const data: TimeResponse = await response.json()
       const realDate = data.datetime.toString().substring(0, 10)
       const systemDate = dayjs().format('YYYY-MM-DD')
 
