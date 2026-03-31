@@ -11,6 +11,7 @@ import BreakdownChart from '@/components/BreakdownChart'
 import QuickStats from '@/components/QuickStats'
 import { useCurrency } from '@/components/ui/use-currency'
 import { BigNumber } from '@/constants/bignumber'
+import Greeting from '@/components/Greeting'
 
 /**
  * Props interface for the Dashboard page
@@ -23,6 +24,7 @@ interface Props {
 
 function Dashboard({ platform }: Props): React.JSX.Element {
   const { currency } = useCurrency()
+  const [isTransactionEmpty, setIsTransactionEmpty] = useState<boolean | null>(null)
   const [displayExpenseChart, setDisplayExpenseChart] = useState(true)
   const [displayIncomeChart, setDisplayIncomeChart] = useState(true)
   const [currentBalance, setCurrentBalance] = useState<number>(0)
@@ -50,6 +52,27 @@ function Dashboard({ platform }: Props): React.JSX.Element {
   )
 
   const [topExpense, setTopExpense] = useState<Transaction>()
+
+  const checkIsTransactionEmpty = useCallback(async (): Promise<void> => {
+    try {
+      const filters: TransactionFilters = {
+        month: null,
+        year: null,
+        keyword: null,
+        transaction_type: null,
+        category: null
+      }
+      const data = await window.api.getTransactions(filters)
+      const transactions = data.transactions
+      if (transactions.length === 0) {
+        setIsTransactionEmpty(true)
+      } else {
+        setIsTransactionEmpty(false)
+      }
+    } catch (error) {
+      console.error('Failed to fetch transactions', error)
+    }
+  }, [])
 
   const loadFullMonthlyTotal = useCallback(async (): Promise<void> => {
     try {
@@ -157,6 +180,7 @@ function Dashboard({ platform }: Props): React.JSX.Element {
 
   useEffect(() => {
     loadRecentTransactions()
+    checkIsTransactionEmpty()
   }, [])
 
   useEffect(() => {
@@ -297,55 +321,60 @@ function Dashboard({ platform }: Props): React.JSX.Element {
           </Button>
         </FilterDashboard>
       </PageHeader>
-      <div
-        className={`space-y-6 flex-1 overflow-auto p-4 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
-      >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {stats.map((stat) => (
-            <Card key={stat.label} className="shadow-none">
-              <CardHeader>
-                <CardTitle className="">{stat.label}</CardTitle>
-                <CardAction>
-                  <div className="flex items-center justify-center">
-                    <stat.icon className="w-4 h-4" />
+      {!isTransactionEmpty && isTransactionEmpty !== null ? (
+        <div
+          className={`space-y-6 flex-1 overflow-auto p-4 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
+        >
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {stats.map((stat) => (
+              <Card key={stat.label} className="shadow-none">
+                <CardHeader>
+                  <CardTitle className="">{stat.label}</CardTitle>
+                  <CardAction>
+                    <div className="flex items-center justify-center">
+                      <stat.icon className="w-4 h-4" />
+                    </div>
+                  </CardAction>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex items-center justify-between mb-3"></div>
+                  <div className="text-2xl font-semibold mb-1">{stat.value}</div>
+                  <div className={`text-xs ${determineStatsColor(stat.trend, stat.isExpense)}`}>
+                    {stat.change} from last month
                   </div>
-                </CardAction>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between mb-3"></div>
-                <div className="text-2xl font-semibold mb-1">{stat.value}</div>
-                <div className={`text-xs ${determineStatsColor(stat.trend, stat.isExpense)}`}>
-                  {stat.change} from last month
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-4 overflow-visible">
-          <div className="lg:col-span-2">
-            <TrendChart
-              data={fullMonthlyTotal}
-              displayIncomeChart={displayIncomeChart}
-              displayExpenseChart={displayExpenseChart}
-            />
+                </CardContent>
+              </Card>
+            ))}
           </div>
-          <div className="lg:col-span-1">
-            <BreakdownChart data={categoryBreakdown} transactionType={categroyBreakdownType} />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 pt-4 overflow-visible">
+            <div className="lg:col-span-2">
+              <TrendChart
+                data={fullMonthlyTotal}
+                displayIncomeChart={displayIncomeChart}
+                displayExpenseChart={displayExpenseChart}
+              />
+            </div>
+            <div className="lg:col-span-1">
+              <BreakdownChart data={categoryBreakdown} transactionType={categroyBreakdownType} />
+            </div>
+          </div>
+          <div className="pt-4">
+            {thisMonthTransactions && (
+              <QuickStats
+                transactions={thisMonthTransactions}
+                thisMonthTotal={thisMonthTotal}
+                topExpense={topExpense}
+              />
+            )}
+          </div>
+          <div className="pt-4">
+            <RecentTransactions recentTransactions={recentTransactions} />
           </div>
         </div>
-        <div className="pt-4">
-          {thisMonthTransactions && (
-            <QuickStats
-              transactions={thisMonthTransactions}
-              thisMonthTotal={thisMonthTotal}
-              topExpense={topExpense}
-            />
-          )}
-        </div>
-        <div className="pt-4">
-          <RecentTransactions recentTransactions={recentTransactions} />
-        </div>
-      </div>
+      ) : (
+        // If transaction is empty for first time users
+        <Greeting />
+      )}
     </>
   )
 }

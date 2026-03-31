@@ -3,22 +3,15 @@ import { DataTable } from '@/components/DataTable'
 import { useState, useEffect, useCallback } from 'react'
 import PageHeader from '@/components/PageHeader'
 import { Button } from '@/components/ui/button'
-import { FunnelIcon, PlusIcon, FileSpreadsheetIcon, Table2Icon } from 'lucide-react'
+import { FunnelIcon, PlusIcon, FileSpreadsheetIcon } from 'lucide-react'
 import { ButtonGroup } from '@/components/ui/button-group'
 import { AddTransaction } from '@/components/AddTransaction'
 import { toast } from 'sonner'
 import FilterTransaction from '@/components/FilterTransaction'
 import { saveAs } from 'file-saver'
-import {
-  Empty,
-  EmptyContent,
-  EmptyDescription,
-  EmptyHeader,
-  EmptyMedia,
-  EmptyTitle
-} from '@/components/ui/empty'
-import { Spinner } from '@/components/ui/spinner'
 import { SortingState } from '@tanstack/react-table'
+import TableLoading from '@/components/TableLoading'
+import TableEmpty from '@/components/TableEmpty'
 
 interface Props {
   platform: string
@@ -176,17 +169,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
         className={`space-y-6 flex-1 overflow-auto p-4 ${platform === 'win32' && `hover:scrollbar-thumb-[#4b4e52] scrollbar-active:scrollbar-thumb-[#696E78] h-32 scrollbar`}`}
       >
         {isLoading ? (
-          <Empty className="w-full">
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Spinner />
-              </EmptyMedia>
-              <EmptyTitle>Processing your table</EmptyTitle>
-              <EmptyDescription>
-                Please wait while we process your transactions history.
-              </EmptyDescription>
-            </EmptyHeader>
-          </Empty>
+          <TableLoading />
         ) : transactions.length > 0 || totalCount > 0 ? (
           <DataTable
             columns={columns}
@@ -198,18 +181,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
             onSortingChange={setSorting}
           />
         ) : (
-          <Empty>
-            <EmptyHeader>
-              <EmptyMedia variant="icon">
-                <Table2Icon />
-              </EmptyMedia>
-              <EmptyDescription>
-                No transactions found for the selected period or category. To get started, click the
-                Add button in the top-right corner.
-              </EmptyDescription>
-            </EmptyHeader>
-            <EmptyContent className="flex-row justify-center gap-2"></EmptyContent>
-          </Empty>
+          <TableEmpty />
         )}
       </div>
     </>

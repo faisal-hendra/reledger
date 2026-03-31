@@ -1,5 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import { navItems } from '@/pages/_pages'
+import { navItems } from '@/pages'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip'
 import { Toaster } from '@/components/ui/sonner'
 
