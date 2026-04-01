@@ -2,13 +2,15 @@ import { Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@/components/ui/theme-provider'
 import { CurrencyProvider } from '@/components/ui/currency-provider'
 import AppSidebar from './components/AppSidebar'
-import Dashboard from './pages/Dashboard'
-import Transactions from './pages/Transactions'
-import Settings from './pages/Settings'
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState, Suspense } from 'react'
+
+const Dashboard = React.lazy(() => import('./pages/Dashboard'))
+const Transactions = React.lazy(() => import('./pages/Transactions'))
+const Settings = React.lazy(() => import('./pages/Settings'))
 import dayjs from 'dayjs'
 import DateMismatchWarning from './pages/special/DateMismatchWarning'
+import { Spinner } from './components/ui/spinner'
 
 // Detect OS platform for window styling
 const platform = window.api.platform
@@ -65,11 +67,19 @@ function App(): React.JSX.Element {
 
                 {/* Sidebar navigation and route definitions */}
                 <AppSidebar>
-                  <Routes>
-                    <Route path="/" element={<Dashboard platform={platform} />} />
-                    <Route path="/transactions" element={<Transactions platform={platform} />} />
-                    <Route path="/settings" element={<Settings />} />
-                  </Routes>
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-full flex justify-center items-center">
+                        <Spinner className="h-8 w-8" />
+                      </div>
+                    }
+                  >
+                    <Routes>
+                      <Route path="/" element={<Dashboard platform={platform} />} />
+                      <Route path="/transactions" element={<Transactions platform={platform} />} />
+                      <Route path="/settings" element={<Settings />} />
+                    </Routes>
+                  </Suspense>
                 </AppSidebar>
               </div>
             ) : (

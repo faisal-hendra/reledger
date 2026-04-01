@@ -27,8 +27,6 @@ function Dashboard({ platform }: Props): React.JSX.Element {
   const [isTransactionEmpty, setIsTransactionEmpty] = useState<boolean | null>(null)
   const [displayExpenseChart, setDisplayExpenseChart] = useState(true)
   const [displayIncomeChart, setDisplayIncomeChart] = useState(true)
-  const [currentBalance, setCurrentBalance] = useState<number>(0)
-  const [lastMonthBalance, setLastMonthBalance] = useState<number>(0)
   const [fullMonthlyTotal, setFullMonthlyTotal] = useState<MonthlyTotal[]>([])
   const [activeYear, setActiveYear] = useState(dayjs().year())
   const [activeMonth, setActiveMonth] = useState(dayjs().month() + 1)
@@ -51,7 +49,13 @@ function Dashboard({ platform }: Props): React.JSX.Element {
     undefined
   )
 
-  const [topExpense, setTopExpense] = useState<Transaction>()
+  const topExpense = useMemo(() => {
+    if (!thisMonthTransactions?.length) return undefined
+    const expenses = thisMonthTransactions.filter((t) => t.transaction_type === 'expense')
+    if (!expenses.length) return undefined
+    const maxAmount = Math.max(...expenses.map((t) => t.amount))
+    return thisMonthTransactions.find((t) => t.amount === maxAmount)
+  }, [thisMonthTransactions])
 
   const checkIsTransactionEmpty = useCallback(async (): Promise<void> => {
     try {
@@ -152,20 +156,6 @@ function Dashboard({ platform }: Props): React.JSX.Element {
     }
   }, [activeMonth, activeYear])
 
-  const getTopExpense = useCallback(() => {
-    if (thisMonthTransactions) {
-      const onlyExpense = thisMonthTransactions.filter((t) => t.transaction_type === 'expense')
-      const amountArray = onlyExpense?.map((t) => t.amount)
-      const maxValue = Math.max(...amountArray)
-      const fetchTopExpense = thisMonthTransactions.find((t) => t.amount === maxValue)
-      setTopExpense(fetchTopExpense)
-    }
-  }, [thisMonthTransactions])
-
-  useEffect(() => {
-    getTopExpense()
-  }, [thisMonthTransactions])
-
   useEffect(() => {
     loadFullMonthlyTotal()
   }, [activeYear])
@@ -183,13 +173,15 @@ function Dashboard({ platform }: Props): React.JSX.Element {
     checkIsTransactionEmpty()
   }, [])
 
-  useEffect(() => {
-    setCurrentBalance(thisMonthTotal.income - thisMonthTotal.expense)
-  }, [thisMonthTotal])
+  const currentBalance = useMemo(
+    () => thisMonthTotal.income - thisMonthTotal.expense,
+    [thisMonthTotal.income, thisMonthTotal.expense]
+  )
 
-  useEffect(() => {
-    setLastMonthBalance(lastMonthTotal.income - lastMonthTotal.expense)
-  }, [lastMonthTotal])
+  const lastMonthBalance = useMemo(
+    () => lastMonthTotal.income - lastMonthTotal.expense,
+    [lastMonthTotal.income, lastMonthTotal.expense]
+  )
 
   useEffect(() => {
     loadCategoryBreakdown()
