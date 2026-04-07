@@ -42,8 +42,8 @@ function BreakdownChart({ data, transactionType }: Props): React.JSX.Element {
     if (!formattedData || formattedData.length === 0) return null
     return (
       <div className="shrink-0 flex flex-wrap justify-center gap-x-3 gap-y-1 text-xs px-2 pt-2 border-t translate-y-0.5">
-        {formattedData.map((entry: FormattedDataEntry, index: number) => (
-          <div key={index} className="flex items-center gap-1">
+        {formattedData.map((entry: FormattedDataEntry) => (
+          <div key={entry.category} className="flex items-center gap-1">
             <div className="w-2 h-2 rounded-sm shrink-0" style={{ backgroundColor: entry.fill }} />
             <span className="truncate max-w-20">
               {chartConfig[entry.slug]?.label || entry.category}
@@ -116,8 +116,8 @@ function BreakdownChart({ data, transactionType }: Props): React.JSX.Element {
                       </g>
                     )}
                   >
-                    {formattedData.map((entry: FormattedDataEntry, index: number) => (
-                      <Cell key={`cell-${index}`} fill={entry.fill} stroke="none" />
+                    {formattedData.map((entry: FormattedDataEntry) => (
+                      <Cell key={`cell-${entry.category}`} fill={entry.fill} stroke="none" />
                     ))}
                   </Pie>
                 </PieChart>

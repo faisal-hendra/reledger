@@ -144,6 +144,7 @@ function FilterTransaction({
   }, [])
 
   // Trigger filter callback whenever any filter criteria changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: dependencies intentionally specified to trigger filter callback
   useEffect(() => {
     onTransactionFiltered?.()
     setIsFiltering(true)

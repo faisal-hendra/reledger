@@ -1,7 +1,7 @@
 import { Empty, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from '@/components/ui/empty'
 import { Spinner } from './ui/spinner'
 
-function TableLoading() {
+function TableLoading(): React.JSX.Element {
   return (
     <Empty className="w-full">
       <EmptyHeader>

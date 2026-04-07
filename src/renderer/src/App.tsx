@@ -44,6 +44,7 @@ function App(): React.JSX.Element {
   }
 
   // Run time sync check on initial mount if online
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only run this once when the app starts
   useEffect(() => {
     if (navigator.onLine) {
       void (async () => {
@@ -53,48 +54,43 @@ function App(): React.JSX.Element {
   }, [])
 
   return (
-    <>
-      <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-        <CurrencyProvider>
-          <CsvSeparatorProvider>
-            <TooltipProvider>
-              {isDateMatched ? (
-                <div className="flex flex-col h-screen overflow-hidden">
-                  {/* Platform-aware window title bar */}
-                  <div
-                    className={`dragable ${platform === 'win32' ? 'h-8' : 'h-8'} bg-titlebar flex items-center justify-center border-b border-border shrink-0`}
-                  >
-                    <p className="text-xs select-none">Reledger</p>
-                  </div>
-
-                  {/* Sidebar navigation and route definitions */}
-                  <AppSidebar>
-                    <Suspense
-                      fallback={
-                        <div className="w-full h-full flex justify-center items-center">
-                          <Spinner className="h-8 w-8" />
-                        </div>
-                      }
-                    >
-                      <Routes>
-                        <Route path="/" element={<Dashboard platform={platform} />} />
-                        <Route
-                          path="/transactions"
-                          element={<Transactions platform={platform} />}
-                        />
-                        <Route path="/settings" element={<Settings />} />
-                      </Routes>
-                    </Suspense>
-                  </AppSidebar>
+    <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
+      <CurrencyProvider>
+        <CsvSeparatorProvider>
+          <TooltipProvider>
+            {isDateMatched ? (
+              <div className="flex flex-col h-screen overflow-hidden">
+                {/* Platform-aware window title bar */}
+                <div
+                  className={`dragable ${platform === 'win32' ? 'h-8' : 'h-8'} bg-titlebar flex items-center justify-center border-b border-border shrink-0`}
+                >
+                  <p className="text-xs select-none">Reledger</p>
                 </div>
-              ) : (
-                <DateMismatchWarning onReload={fetchTime} isLoading={isLoading} />
-              )}
-            </TooltipProvider>
-          </CsvSeparatorProvider>
-        </CurrencyProvider>
-      </ThemeProvider>
-    </>
+
+                {/* Sidebar navigation and route definitions */}
+                <AppSidebar>
+                  <Suspense
+                    fallback={
+                      <div className="w-full h-full flex justify-center items-center">
+                        <Spinner className="h-8 w-8" />
+                      </div>
+                    }
+                  >
+                    <Routes>
+                      <Route path="/" element={<Dashboard platform={platform} />} />
+                      <Route path="/transactions" element={<Transactions platform={platform} />} />
+                      <Route path="/settings" element={<Settings />} />
+                    </Routes>
+                  </Suspense>
+                </AppSidebar>
+              </div>
+            ) : (
+              <DateMismatchWarning onReload={fetchTime} isLoading={isLoading} />
+            )}
+          </TooltipProvider>
+        </CsvSeparatorProvider>
+      </CurrencyProvider>
+    </ThemeProvider>
   )
 }
 

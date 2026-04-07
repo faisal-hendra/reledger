@@ -160,8 +160,12 @@ export function AddTransaction({
   }
 
   // Reset category select when transaction type is changed
+  // biome-ignore lint/correctness/useExhaustiveDependencies: selectedType is intentionally used to reset category
   useEffect(() => {
-    set('category')('')
+    const resetCategory = (): void => {
+      setFormData((prev) => ({ ...prev, category: '' }))
+    }
+    resetCategory()
   }, [selectedType])
 
   return (

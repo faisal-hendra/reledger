@@ -65,6 +65,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
 
   const { csvSeparator } = useCsvSeparator()
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Initial load should not re-trigger on filter/pagination changes
   useEffect(() => {
     const initializeTransactions = async (): Promise<void> => {
       try {
@@ -84,6 +85,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
     initializeTransactions()
   }, [])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Pagination and sorting changes should trigger data fetch
   useEffect(() => {
     const offset = pagination.pageIndex * pagination.pageSize
     const sortColumn = sorting[0]?.id
@@ -107,6 +109,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pagination, sorting])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: filters is needed to reset pagination
   useEffect(() => {
     setPagination((prev) => ({ ...prev, pageIndex: 0 }))
   }, [filters])
