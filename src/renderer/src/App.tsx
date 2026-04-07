@@ -44,7 +44,6 @@ function App(): React.JSX.Element {
   }
 
   // Run time sync check on initial mount if online
-  // biome-ignore lint/correctness/useExhaustiveDependencies: only run this once when the app starts
   useEffect(() => {
     if (navigator.onLine) {
       void (async () => {

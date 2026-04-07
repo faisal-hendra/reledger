@@ -6,7 +6,9 @@
   "author": "Faisal Hendra",
   "scripts": {
     "format": "prettier --write .",
+    "format:biome": "biome format --write .",
     "lint": "eslint --cache .",
+    "lint:biome": "biome lint .",
     "typecheck:node": "tsc --noEmit -p tsconfig.node.json --composite false",
     "typecheck:web": "tsc --noEmit -p tsconfig.web.json --composite false",
     "typecheck": "npm run typecheck:node && npm run typecheck:web",
@@ -44,6 +46,7 @@
     "tailwindcss": "^4.2.2"
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.4.10",
     "@electron-toolkit/eslint-config-prettier": "^3.0.0",
     "@electron-toolkit/eslint-config-ts": "^3.1.0",
     "@electron-toolkit/tsconfig": "^2.0.0",

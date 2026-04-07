@@ -1,21 +1,21 @@
-import { useColumns } from '@/components/Columns'
-import { DataTable } from '@/components/DataTable'
-import { useState, useEffect, useCallback } from 'react'
-import PageHeader from '@/components/PageHeader'
-import { Button } from '@/components/ui/button'
-import { FunnelIcon, PlusIcon, FileSpreadsheetIcon } from 'lucide-react'
-import { ButtonGroup } from '@/components/ui/button-group'
-import { AddTransaction } from '@/components/AddTransaction'
-import { toast } from 'sonner'
-import FilterTransaction from '@/components/FilterTransaction'
-import { SortingState } from '@tanstack/react-table'
-import TableLoading from '@/components/TableLoading'
-import TableEmpty from '@/components/TableEmpty'
-import { handleCSVExport } from '@/modules/csv-export'
-import { useCsvSeparator } from '@/stores/use-csvseparator'
+import { useColumns } from '@/components/Columns';
+import { DataTable } from '@/components/DataTable';
+import { useState, useEffect, useCallback } from 'react';
+import PageHeader from '@/components/PageHeader';
+import { Button } from '@/components/ui/button';
+import { FunnelIcon, PlusIcon, FileSpreadsheetIcon } from 'lucide-react';
+import { ButtonGroup } from '@/components/ui/button-group';
+import { AddTransaction } from '@/components/AddTransaction';
+import { toast } from 'sonner';
+import FilterTransaction from '@/components/FilterTransaction';
+import { SortingState } from '@tanstack/react-table';
+import TableLoading from '@/components/TableLoading';
+import TableEmpty from '@/components/TableEmpty';
+import { handleCSVExport } from '@/modules/csv-export';
+import { useCsvSeparator } from '@/stores/use-csvseparator';
 
 interface Props {
-  platform: string
+  platform: string;
 }
 
 const INITIAL_FILTER = {
@@ -23,73 +23,71 @@ const INITIAL_FILTER = {
   year: null,
   keyword: null,
   transaction_type: null,
-  category: null
-}
+  category: null,
+};
 
-const DEFAULT_PAGE_SIZE = 15
+const DEFAULT_PAGE_SIZE = 15;
 
 function Transactions({ platform }: Props): React.JSX.Element {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [filters, setFilters] = useState<TransactionFilters>(INITIAL_FILTER)
-  const [isLoading, setIsLoading] = useState<boolean>(true)
-  const [isFiltering, setIsFiltering] = useState<boolean>(false)
-  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: DEFAULT_PAGE_SIZE })
-  const [sorting, setSorting] = useState<SortingState>([{ id: 'date', desc: true }])
-  const [totalCount, setTotalCount] = useState(0)
+  const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [filters, setFilters] = useState<TransactionFilters>(INITIAL_FILTER);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isFiltering, setIsFiltering] = useState<boolean>(false);
+  const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: DEFAULT_PAGE_SIZE });
+  const [sorting, setSorting] = useState<SortingState>([{ id: 'date', desc: true }]);
+  const [totalCount, setTotalCount] = useState(0);
 
   const loadTransactions = useCallback(async (): Promise<void> => {
     try {
-      !isFiltering && setIsLoading(true)
-      const offset = pagination.pageIndex * pagination.pageSize
-      const sortColumn = sorting[0]?.id
-      const sortDirection = sorting[0]?.desc ? 'desc' : 'asc'
+      !isFiltering && setIsLoading(true);
+      const offset = pagination.pageIndex * pagination.pageSize;
+      const sortColumn = sorting[0]?.id;
+      const sortDirection = sorting[0]?.desc ? 'desc' : 'asc';
       const data = await window.api.getTransactions({
         ...filters,
         limit: pagination.pageSize,
         offset,
         sortColumn,
-        sortDirection
-      })
-      setTransactions(data.transactions)
-      setTotalCount(data.total)
+        sortDirection,
+      });
+      setTransactions(data.transactions);
+      setTotalCount(data.total);
     } catch (error) {
-      console.error('Failed to load transactions:', error)
+      console.error('Failed to load transactions:', error);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [filters, pagination.pageIndex, pagination.pageSize, sorting, isFiltering])
+  }, [filters, pagination.pageIndex, pagination.pageSize, sorting, isFiltering]);
 
   const displayToast = useCallback((message: string): void => {
-    toast.success(message, { position: 'bottom-right' })
-  }, [])
+    toast.success(message, { position: 'bottom-right' });
+  }, []);
 
-  const { csvSeparator } = useCsvSeparator()
+  const { csvSeparator } = useCsvSeparator();
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Initial load should not re-trigger on filter/pagination changes
   useEffect(() => {
     const initializeTransactions = async (): Promise<void> => {
       try {
         const data = await window.api.getTransactions({
           ...filters,
           limit: pagination.pageSize,
-          offset: 0
-        })
-        setTransactions(data.transactions)
-        setTotalCount(data.total)
-        setPagination((prev) => ({ ...prev, pageIndex: 0 }))
+          offset: 0,
+        });
+        setTransactions(data.transactions);
+        setTotalCount(data.total);
+        setPagination((prev) => ({ ...prev, pageIndex: 0 }));
       } catch (error) {
-        console.error('Failed to initialize transactions:', error)
+        console.error('Failed to initialize transactions:', error);
       }
-    }
+    };
 
-    initializeTransactions()
-  }, [])
+    initializeTransactions();
+  }, []);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: Pagination and sorting changes should trigger data fetch
   useEffect(() => {
-    const offset = pagination.pageIndex * pagination.pageSize
-    const sortColumn = sorting[0]?.id
-    const sortDirection = sorting[0]?.desc ? 'desc' : 'asc'
+    const offset = pagination.pageIndex * pagination.pageSize;
+    const sortColumn = sorting[0]?.id;
+    const sortDirection = sorting[0]?.desc ? 'desc' : 'asc';
     const fetchData = async (): Promise<void> => {
       try {
         const data = await window.api.getTransactions({
@@ -97,24 +95,23 @@ function Transactions({ platform }: Props): React.JSX.Element {
           limit: pagination.pageSize,
           offset,
           sortColumn,
-          sortDirection
-        })
-        setTransactions(data.transactions)
-        setTotalCount(data.total)
+          sortDirection,
+        });
+        setTransactions(data.transactions);
+        setTotalCount(data.total);
       } catch (error) {
-        console.error('Failed to load transactions:', error)
+        console.error('Failed to load transactions:', error);
       }
-    }
-    fetchData()
+    };
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pagination, sorting])
+  }, [pagination, sorting]);
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: filters is needed to reset pagination
   useEffect(() => {
-    setPagination((prev) => ({ ...prev, pageIndex: 0 }))
-  }, [filters])
+    setPagination((prev) => ({ ...prev, pageIndex: 0 }));
+  }, [filters]);
 
-  const columns = useColumns(loadTransactions, displayToast)
+  const columns = useColumns(loadTransactions, displayToast);
 
   return (
     <>
@@ -138,7 +135,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
             <Button
               variant="outline"
               onClick={() => {
-                handleCSVExport(transactions, csvSeparator)
+                handleCSVExport(transactions, csvSeparator);
               }}
             >
               <FileSpreadsheetIcon />
@@ -176,7 +173,7 @@ function Transactions({ platform }: Props): React.JSX.Element {
         )}
       </div>
     </>
-  )
+  );
 }
 
-export default Transactions
+export default Transactions;

@@ -1,111 +1,111 @@
-import React, { useEffect, useState } from 'react'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { SearchIcon, RefreshCwIcon, FunnelIcon } from 'lucide-react'
-import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group'
-import { Label } from './ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import { Button } from './ui/button'
-import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '@/constants/categories'
-import { MONTHS } from '@/constants/months'
-import { TRANSACTION_TYPES } from '@/constants/transaction-types'
-import { Badge } from './ui/badge'
+import React, { useEffect, useState } from 'react';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { SearchIcon, RefreshCwIcon, FunnelIcon } from 'lucide-react';
+import { InputGroup, InputGroupAddon, InputGroupInput } from './ui/input-group';
+import { Label } from './ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { Button } from './ui/button';
+import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '@/constants/categories';
+import { MONTHS } from '@/constants/months';
+import { TRANSACTION_TYPES } from '@/constants/transaction-types';
+import { Badge } from './ui/badge';
 
 interface Props {
-  children: React.ReactNode
-  transactions: Transaction[]
+  children: React.ReactNode;
+  transactions: Transaction[];
   onFilterChange?: (filters: {
-    month: number | null
-    year: number | null
-    keyword: string | null
-    category: string | null
-    transaction_type: 'income' | 'expense' | null
-  }) => void
-  onTransactionFiltered?: () => void
-  setIsFiltering: (value: boolean) => void
+    month: number | null;
+    year: number | null;
+    keyword: string | null;
+    category: string | null;
+    transaction_type: 'income' | 'expense' | null;
+  }) => void;
+  onTransactionFiltered?: () => void;
+  setIsFiltering: (value: boolean) => void;
 }
 function FilterTransaction({
   children,
   onFilterChange,
   onTransactionFiltered,
-  setIsFiltering
+  setIsFiltering,
 }: Props): React.JSX.Element {
-  const [selectedMonth, setSelectedMonth] = useState<number | null>(null)
-  const [selectedYear, setSelectedYear] = useState<number | null>(null)
-  const [searchTerm, setSearchTerm] = useState('')
-  const [selectedType, setSelectedType] = useState<'income' | 'expense' | null>(null)
-  const [selectedCategory, setSelectedCategory] = useState<string | null>('All')
+  const [selectedMonth, setSelectedMonth] = useState<number | null>(null);
+  const [selectedYear, setSelectedYear] = useState<number | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedType, setSelectedType] = useState<'income' | 'expense' | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState<string | null>('All');
   const [availableYears, setAvailableYears] = useState<{ value: number | null; label: string }[]>([
-    { value: null, label: 'All Years' }
-  ])
+    { value: null, label: 'All Years' },
+  ]);
 
   // Change list of category option according to transaction type
-  const [listCategories, setListCategories] = useState<string[]>(['All'])
+  const [listCategories, setListCategories] = useState<string[]>(['All']);
 
   useEffect(() => {
     const determineCategoryList = (): void => {
       if (selectedType === null) {
-        const incomeNoOther = INCOME_CATEGORIES.filter((val) => val !== 'Other')
-        setListCategories(['All', ...incomeNoOther, ...EXPENSE_CATEGORIES])
+        const incomeNoOther = INCOME_CATEGORIES.filter((val) => val !== 'Other');
+        setListCategories(['All', ...incomeNoOther, ...EXPENSE_CATEGORIES]);
       } else if (selectedType === 'expense') {
-        setListCategories(['All', ...EXPENSE_CATEGORIES])
+        setListCategories(['All', ...EXPENSE_CATEGORIES]);
       } else {
-        setListCategories(['All', ...INCOME_CATEGORIES])
+        setListCategories(['All', ...INCOME_CATEGORIES]);
       }
-    }
-    determineCategoryList()
-  }, [selectedType])
+    };
+    determineCategoryList();
+  }, [selectedType]);
 
   const handleMonthChange = (value: string): void => {
-    const monthValue = value === 'null' ? null : Number(value)
-    setSelectedMonth(monthValue)
+    const monthValue = value === 'null' ? null : Number(value);
+    setSelectedMonth(monthValue);
     onFilterChange?.({
       month: monthValue,
       year: selectedYear,
       keyword: searchTerm || null,
       transaction_type: selectedType || null,
-      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory
-    })
-  }
+      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory,
+    });
+  };
 
   const handleYearChange = (value: number | null): void => {
-    setSelectedYear(value)
+    setSelectedYear(value);
     onFilterChange?.({
       month: selectedMonth,
       year: value,
       keyword: searchTerm || null,
       transaction_type: selectedType || null,
-      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory
-    })
-  }
+      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory,
+    });
+  };
 
   const handleSearchChange = (value: string): void => {
-    setSearchTerm(value)
+    setSearchTerm(value);
     onFilterChange?.({
       month: selectedMonth,
       year: selectedYear,
       keyword: value || null,
       transaction_type: selectedType || null,
-      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory
-    })
-  }
+      category: selectedCategory === 'All' || selectedCategory === null ? null : selectedCategory,
+    });
+  };
 
   const handleTypeChange = (val: 'income' | 'expense' | 'all'): void => {
-    const newType = val === 'all' ? null : val
-    setSelectedType(newType)
+    const newType = val === 'all' ? null : val;
+    setSelectedType(newType);
 
     // Reset category if it's not applicable to the new type
-    let newCategory = selectedCategory
+    let newCategory = selectedCategory;
     if (selectedCategory && selectedCategory !== 'All') {
       const isValidForNewType =
         newType === null ||
         (newType === 'expense' &&
           EXPENSE_CATEGORIES.includes(selectedCategory as (typeof EXPENSE_CATEGORIES)[number])) ||
         (newType === 'income' &&
-          INCOME_CATEGORIES.includes(selectedCategory as (typeof INCOME_CATEGORIES)[number]))
+          INCOME_CATEGORIES.includes(selectedCategory as (typeof INCOME_CATEGORIES)[number]));
 
       if (!isValidForNewType) {
-        newCategory = 'All'
-        setSelectedCategory('All')
+        newCategory = 'All';
+        setSelectedCategory('All');
       }
     }
 
@@ -114,40 +114,39 @@ function FilterTransaction({
       year: selectedYear,
       keyword: searchTerm || null,
       transaction_type: newType,
-      category: newCategory === 'All' || newCategory === null ? null : newCategory
-    })
-  }
+      category: newCategory === 'All' || newCategory === null ? null : newCategory,
+    });
+  };
 
   const handleCategoryChange = (value: string): void => {
-    const categoryValue = value === 'All' ? null : value
-    setSelectedCategory(categoryValue === 'All' || categoryValue === null ? 'All' : categoryValue)
+    const categoryValue = value === 'All' ? null : value;
+    setSelectedCategory(categoryValue === 'All' || categoryValue === null ? 'All' : categoryValue);
     onFilterChange?.({
       month: selectedMonth,
       year: selectedYear,
       keyword: searchTerm || null,
       transaction_type: selectedType || null,
-      category: categoryValue === 'All' || categoryValue === null ? null : categoryValue
-    })
-  }
+      category: categoryValue === 'All' || categoryValue === null ? null : categoryValue,
+    });
+  };
 
   useEffect(() => {
     const fetchAvailableYears = async (): Promise<void> => {
       try {
-        const data = await window.api.getAvailableYears()
-        const yearsData = data.map((year) => ({ value: year?.year, label: year?.year.toString() }))
-        setAvailableYears([{ value: null, label: 'All Years' }, ...yearsData])
+        const data = await window.api.getAvailableYears();
+        const yearsData = data.map((year) => ({ value: year?.year, label: year?.year.toString() }));
+        setAvailableYears([{ value: null, label: 'All Years' }, ...yearsData]);
       } catch (error) {
-        console.error('Failed to fetch available years:', error)
+        console.error('Failed to fetch available years:', error);
       }
-    }
-    fetchAvailableYears()
-  }, [])
+    };
+    fetchAvailableYears();
+  }, []);
 
   // Trigger filter callback whenever any filter criteria changes
-  // biome-ignore lint/correctness/useExhaustiveDependencies: dependencies intentionally specified to trigger filter callback
   useEffect(() => {
-    onTransactionFiltered?.()
-    setIsFiltering(true)
+    onTransactionFiltered?.();
+    setIsFiltering(true);
   }, [
     selectedMonth,
     selectedYear,
@@ -155,23 +154,23 @@ function FilterTransaction({
     selectedType,
     selectedCategory,
     onTransactionFiltered,
-    setIsFiltering
-  ])
+    setIsFiltering,
+  ]);
 
   const handleReset = (): void => {
-    setSelectedMonth(null)
-    setSelectedYear(null)
-    setSearchTerm('')
-    setSelectedCategory('All')
-    setSelectedType(null)
+    setSelectedMonth(null);
+    setSelectedYear(null);
+    setSearchTerm('');
+    setSelectedCategory('All');
+    setSelectedType(null);
     onFilterChange?.({
       month: null,
       year: null,
       keyword: null,
       transaction_type: null,
-      category: null
-    })
-  }
+      category: null,
+    });
+  };
 
   return (
     <Popover>
@@ -185,7 +184,7 @@ function FilterTransaction({
           <Button
             variant="ghost"
             onClick={() => {
-              handleReset()
+              handleReset();
             }}
           >
             <RefreshCwIcon className="w-4 h-4" />
@@ -306,7 +305,7 @@ function FilterTransaction({
         </div>
       </PopoverContent>
     </Popover>
-  )
+  );
 }
 
-export default FilterTransaction
+export default FilterTransaction;

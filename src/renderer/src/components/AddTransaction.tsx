@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { useTheme } from './ui/theme-provider'
+import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { useTheme } from './ui/theme-provider';
 import {
   Dialog,
   DialogClose,
@@ -8,33 +8,33 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogTrigger
-} from '@/components/ui/dialog'
-import { Field, FieldGroup } from '@/components/ui/field'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Field, FieldGroup } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
-import { Calendar } from '@/components/ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { ChevronDownIcon, CalendarIcon } from 'lucide-react'
-import { Badge } from './ui/badge'
-import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '@/constants/categories'
-import { TRANSACTION_TYPES } from '@/constants/transaction-types'
+  SelectValue,
+} from '@/components/ui/select';
+import { Calendar } from '@/components/ui/calendar';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { ChevronDownIcon, CalendarIcon } from 'lucide-react';
+import { Badge } from './ui/badge';
+import { INCOME_CATEGORIES, EXPENSE_CATEGORIES } from '@/constants/categories';
+import { TRANSACTION_TYPES } from '@/constants/transaction-types';
 
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 
 interface Props {
-  children: React.ReactNode
-  onTransactionAdded: () => void
-  alert: (message: string) => void
-  editMode: boolean
-  idToEdit?: number
+  children: React.ReactNode;
+  onTransactionAdded: () => void;
+  alert: (message: string) => void;
+  editMode: boolean;
+  idToEdit?: number;
 }
 
 const INITIAL_FORM = {
@@ -43,42 +43,42 @@ const INITIAL_FORM = {
   name: '',
   amount: '',
   category: '',
-  description: ''
-}
+  description: '',
+};
 
 export function AddTransaction({
   children,
   onTransactionAdded,
   editMode,
   idToEdit,
-  alert
+  alert,
 }: Props): React.JSX.Element {
-  const [open, setOpen] = useState(false)
-  const [formData, setFormData] = useState(INITIAL_FORM)
-  const [selectedType, setSelectedType] = useState('')
+  const [open, setOpen] = useState(false);
+  const [formData, setFormData] = useState(INITIAL_FORM);
+  const [selectedType, setSelectedType] = useState('');
 
   // Generic setter that handles both direct string values and input change events
   const set = (field: string) => (value: string | React.ChangeEvent<HTMLInputElement>) =>
     setFormData((prev) => ({
       ...prev,
-      [field]: typeof value === 'string' ? value : value.target.value
-    }))
+      [field]: typeof value === 'string' ? value : value.target.value,
+    }));
 
   // Change list of category option according to transaction type
-  const [listCategories, setListCategories] = useState<string[]>([])
+  const [listCategories, setListCategories] = useState<string[]>([]);
   useEffect(() => {
     const determineCategoryList = (): void => {
       if (selectedType === 'income') {
-        setListCategories([...INCOME_CATEGORIES])
+        setListCategories([...INCOME_CATEGORIES]);
       } else {
-        setListCategories([...EXPENSE_CATEGORIES])
+        setListCategories([...EXPENSE_CATEGORIES]);
       }
-    }
-    determineCategoryList()
-  }, [selectedType])
+    };
+    determineCategoryList();
+  }, [selectedType]);
 
   const handleSubmit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       await window.api.addTransaction({
         transaction_type: formData.transaction_type as 'expense' | 'income',
@@ -86,19 +86,19 @@ export function AddTransaction({
         amount: parseFloat(formData.amount),
         category: formData.category,
         description: formData.description,
-        date: formData.date
-      })
-      setFormData(INITIAL_FORM)
-      setOpen(false)
-      onTransactionAdded?.()
-      alert?.('Transaction added successfully')
+        date: formData.date,
+      });
+      setFormData(INITIAL_FORM);
+      setOpen(false);
+      onTransactionAdded?.();
+      alert?.('Transaction added successfully');
     } catch (error) {
-      console.error('Failed to add transaction:', error)
+      console.error('Failed to add transaction:', error);
     }
-  }
+  };
 
   const handleEdit = async (e: React.FormEvent): Promise<void> => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       await window.api.updateTransaction({
         id: idToEdit,
@@ -107,16 +107,16 @@ export function AddTransaction({
         amount: parseFloat(formData.amount),
         category: formData.category,
         description: formData.description,
-        date: formData.date
-      })
-      setFormData(INITIAL_FORM)
-      setOpen(false)
-      onTransactionAdded?.()
-      alert?.('Transaction edited successfully')
+        date: formData.date,
+      });
+      setFormData(INITIAL_FORM);
+      setOpen(false);
+      onTransactionAdded?.();
+      alert?.('Transaction edited successfully');
     } catch (error) {
-      console.error('Failed to edit transaction:', error)
+      console.error('Failed to edit transaction:', error);
     }
-  }
+  };
 
   // Fetch data if in edit mode
   useEffect(() => {
@@ -124,56 +124,55 @@ export function AddTransaction({
       const fetchDataToEdit = async (): Promise<void> => {
         try {
           if (idToEdit === undefined) {
-            return
+            return;
           }
-          const dataToEdit = await window.api.getTransactionById(idToEdit)
+          const dataToEdit = await window.api.getTransactionById(idToEdit);
           const FETCHED_DATA = {
             transaction_type: dataToEdit?.transaction_type || 'expense',
             date: dataToEdit?.date || dayjs().format('YYYY-MM-DD'),
             name: dataToEdit?.name || '',
             amount: dataToEdit?.amount?.toString() || '',
             category: dataToEdit?.category || '',
-            description: dataToEdit?.description || ''
-          }
+            description: dataToEdit?.description || '',
+          };
           if (dataToEdit) {
-            setFormData(FETCHED_DATA)
+            setFormData(FETCHED_DATA);
           }
         } catch (error) {
-          console.error('Failed to fetch transaction to update:', error)
+          console.error('Failed to fetch transaction to update:', error);
         }
-      }
-      fetchDataToEdit()
+      };
+      fetchDataToEdit();
     }
-  }, [idToEdit])
+  }, [idToEdit]);
 
   // Apply titlebar dimming effect when dialog opens (Windows-specific)
   // Resolves system theme preference to determine correct dimming color
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   const applyDim = (isOpen: boolean): void => {
     const resolvedTheme =
       theme === 'system'
         ? window.matchMedia('(prefers-color-scheme: dark)').matches
           ? 'dark'
           : 'light'
-        : theme
-    window.api.dimTitlebar(isOpen, resolvedTheme)
-  }
+        : theme;
+    window.api.dimTitlebar(isOpen, resolvedTheme);
+  };
 
   // Reset category select when transaction type is changed
-  // biome-ignore lint/correctness/useExhaustiveDependencies: selectedType is intentionally used to reset category
   useEffect(() => {
     const resetCategory = (): void => {
-      setFormData((prev) => ({ ...prev, category: '' }))
-    }
-    resetCategory()
-  }, [selectedType])
+      setFormData((prev) => ({ ...prev, category: '' }));
+    };
+    resetCategory();
+  }, [selectedType]);
 
   return (
     <Dialog
       open={open}
       onOpenChange={(isOpen) => {
-        setOpen(isOpen)
-        applyDim(isOpen)
+        setOpen(isOpen);
+        applyDim(isOpen);
       }}
     >
       <DialogTrigger asChild>{children}</DialogTrigger>
@@ -181,12 +180,12 @@ export function AddTransaction({
         <form
           onSubmit={(e) => {
             if (!editMode) {
-              handleSubmit(e)
+              handleSubmit(e);
             } else {
-              handleEdit(e)
+              handleEdit(e);
             }
-            setOpen(false)
-            applyDim(false)
+            setOpen(false);
+            applyDim(false);
           }}
         >
           <DialogHeader>
@@ -200,8 +199,8 @@ export function AddTransaction({
                 <Select
                   value={formData.transaction_type}
                   onValueChange={(value) => {
-                    set('transaction_type')(value)
-                    setSelectedType(value)
+                    set('transaction_type')(value);
+                    setSelectedType(value);
                   }}
                 >
                   <SelectTrigger className="w-full">
@@ -314,8 +313,8 @@ export function AddTransaction({
                       onSelect={(date) => {
                         setFormData({
                           ...formData,
-                          date: date ? dayjs(date).format('YYYY-MM-DD') : ''
-                        })
+                          date: date ? dayjs(date).format('YYYY-MM-DD') : '',
+                        });
                       }}
                     />
                   </PopoverContent>
@@ -334,5 +333,5 @@ export function AddTransaction({
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
