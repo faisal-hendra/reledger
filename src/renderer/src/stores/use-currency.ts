@@ -1,10 +1,26 @@
-import { useContext } from 'react'
-import { CurrencyProviderContext, CurrencyProviderState } from '@/contexts/currency-context'
+import { create } from 'zustand'
+import { CURRENCIES } from '@/constants/currencies'
 
-export const useCurrency = (): CurrencyProviderState => {
-  const context = useContext(CurrencyProviderContext)
-  if (context === undefined) {
-    throw new Error('useCurrency must be used within a CurrencyProvider')
+const STORAGE_KEY = 'reledger-currency'
+
+function getInitialCurrency(): Currency {
+  const stored = localStorage.getItem(STORAGE_KEY)
+  if (stored) {
+    const found = CURRENCIES.find((c) => c.code === stored)
+    if (found) return found
   }
-  return context
+  return CURRENCIES[0]
 }
+
+type CurrencyState = {
+  currency: Currency
+  setCurrency: (currency: Currency) => void
+}
+
+export const useCurrency = create<CurrencyState>()((set) => ({
+  currency: getInitialCurrency(),
+  setCurrency: (currency: Currency) => {
+    localStorage.setItem(STORAGE_KEY, currency.code)
+    set({ currency })
+  }
+}))

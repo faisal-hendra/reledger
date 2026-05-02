@@ -1,7 +1,5 @@
 import { Routes, Route } from 'react-router-dom'
 import { ThemeProvider } from '@/components/ui/theme-provider'
-import { CurrencyProvider } from '@/contexts/currency-provider'
-import { CsvSeparatorProvider } from '@/contexts/csv-separator-provider'
 import AppSidebar from './components/AppSidebar'
 import { TooltipProvider } from '@/components/ui/tooltip'
 import React, { useEffect, useState, Suspense } from 'react'
@@ -54,9 +52,7 @@ function App(): React.JSX.Element {
 
   return (
     <ThemeProvider defaultTheme="system" storageKey="vite-ui-theme">
-      <CurrencyProvider>
-        <CsvSeparatorProvider>
-          <TooltipProvider>
+      <TooltipProvider>
             {isDateMatched ? (
               <div className="flex flex-col h-screen overflow-hidden">
                 {/* Platform-aware window title bar */}
@@ -87,8 +83,6 @@ function App(): React.JSX.Element {
               <DateMismatchWarning onReload={fetchTime} isLoading={isLoading} />
             )}
           </TooltipProvider>
-        </CsvSeparatorProvider>
-      </CurrencyProvider>
     </ThemeProvider>
   )
 }
